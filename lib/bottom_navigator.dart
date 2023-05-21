@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
-import 'package:workout/view/main/create_plan_screen.dart';
-import 'package:workout/view/main/discover_screen.dart';
-import 'package:workout/view/main/home_screen.dart';
-import 'package:workout/view/main/profile_screen.dart';
+import 'package:workout/screen/main/create_custom_plan_screen.dart';
+
+import 'screen/main/discover_screen.dart';
+import 'screen/main/home_screen.dart';
+import 'screen/main/profile_screen.dart';
 
 class BottomNavigator extends StatefulWidget {
   BottomNavigator({Key? key}) : super(key: key);
+
+  static const routeName = '/Login-SignupScreen->BottomNavigator';
 
   @override
   State<BottomNavigator> createState() => _BottomNavigatorState();
@@ -15,10 +18,12 @@ class BottomNavigator extends StatefulWidget {
 class _BottomNavigatorState extends State<BottomNavigator> {
   int _currentIndex = 0;
 
+
+
   List _pages = [
     HomeScreen(),
     DiscoverScreen(),
-    CreatePlanScreen(),
+    CreateCustomPlanScreen(),
     ProfileScreen(),
   ];
 
@@ -30,18 +35,18 @@ class _BottomNavigatorState extends State<BottomNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
             indicatorColor: Colors.transparent,
             elevation: 0,
-            labelTextStyle: MaterialStateProperty.all(const TextStyle(
+            labelTextStyle: MaterialStateProperty.all( TextStyle(
               fontWeight: FontWeight.w500,
+              color: Theme.of(context).primaryColorLight,
             ))),
         child: NavigationBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: _currentIndex,
           onDestinationSelected: (int index) {
@@ -49,48 +54,48 @@ class _BottomNavigatorState extends State<BottomNavigator> {
               _currentIndex = index;
             });
           },
-          destinations: const [
+          destinations:  [
             NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 flu.FluentIcons.home,
                 color: Colors.grey,
               ),
               selectedIcon: Icon(
                 flu.FluentIcons.home,
-                color: Colors.black,
+                color: Theme.of(context).primaryColorLight,
               ),
               label: 'Home',
             ),
             NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 flu.FluentIcons.compass_n_w,
                 color: Colors.grey,
               ),
               selectedIcon: Icon(
                 flu.FluentIcons.compass_n_w,
-                color: Colors.black,
+                color: Theme.of(context).primaryColorLight,
               ),
               label: 'Discover',
             ),
             NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 flu.FluentIcons.add_event,
                 color: Colors.grey,
               ),
               selectedIcon: Icon(
                 flu.FluentIcons.add_event,
-                color: Colors.black,
+                color: Theme.of(context).primaryColorLight,
               ),
               label: 'Create',
             ),
             NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 flu.FluentIcons.contact,
                 color: Colors.grey,
               ),
               selectedIcon: Icon(
                 flu.FluentIcons.contact,
-                color: Colors.black,
+                color: Theme.of(context).primaryColorLight,
               ),
               label: 'Profile',
             ),

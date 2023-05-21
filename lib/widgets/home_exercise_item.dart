@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:get/get.dart';
 import 'package:gap/gap.dart';
-import 'package:workout/model/exercise_step_model.dart';
+
+import '../provider/exercise.dart';
+import '../res/colors.dart';
 
 class HomeExerciseItem extends StatelessWidget {
   final String title;
@@ -11,87 +14,50 @@ class HomeExerciseItem extends StatelessWidget {
 
   HomeExerciseItem(this.title, this.image, this.muscle);
 
-  // String get difficultyText {
-  //   switch (difficulty) {
-  //     case Difficulty.basic:
-  //       return 'Basic';
-  //       break;
-  //     case Difficulty.intermediate:
-  //       return 'Intermediate';
-  //       break;
-  //     case Difficulty.advance:
-  //       return 'Advance';
-  //       break;
-  //     default:
-  //       return 'Unknown';
-  //   }
-  // }
-
   String get muscleText {
     switch (muscle) {
-      case Muscle.allMuscles:
+      case Muscle.AllMuscles:
         return 'All Muscles';
-        break;
-      case Muscle.abdominals:
+      case Muscle.Abdominals:
         return 'Abdominals';
-        break;
-      case Muscle.abductors:
+      case Muscle.Abductors:
         return 'Abductors';
-        break;
-      case Muscle.adductors:
+      case Muscle.Adductors:
         return 'Adductors';
-        break;
-      case Muscle.lowerBack:
+      case Muscle.LowerBack:
         return 'Lower Back';
-        break;
-      case Muscle.upperBack:
+      case Muscle.UpperBack:
         return 'Upper Back';
-        break;
-      case Muscle.biceps:
+      case Muscle.Biceps:
         return 'Biceps';
-        break;
-      case Muscle.cardio:
+      case Muscle.Cardio:
         return 'Cardio';
-        break;
-      case Muscle.chest:
+      case Muscle.Chest:
         return 'Chest';
-        break;
-      case Muscle.calves:
+      case Muscle.Calves:
         return 'Calves';
-        break;
-      case Muscle.forearms:
+      case Muscle.Forearms:
         return 'Forearms';
-        break;
-      case Muscle.glutes:
+      case Muscle.Glutes:
         return 'Glutes';
-        break;
-      case Muscle.hamstrings:
+      case Muscle.Hamstrings:
         return 'Hamstring';
-        break;
-      case Muscle.lats:
+      case Muscle.Lats:
         return 'Lats';
-        break;
-      case Muscle.shoulders:
+      case Muscle.Shoulders:
         return 'Shoulders';
-        break;
-      case Muscle.traps:
+      case Muscle.Traps:
         return 'Traps';
-        break;
-      case Muscle.triceps:
+      case Muscle.Triceps:
         return 'Triceps';
-        break;
-      case Muscle.quadriceps:
+      case Muscle.Quadriceps:
         return 'Quadriceps';
-        break;
-      case Muscle.olympic:
+      case Muscle.Olympic:
         return 'Olympic';
-        break;
-      case Muscle.fullBody:
+      case Muscle.FullBody:
         return 'Full Body';
-        break;
-      case Muscle.other:
+      case Muscle.Other:
         return 'Unknown';
-        break;
       default:
         return 'Unknown';
     }
@@ -121,12 +87,11 @@ class HomeExerciseItem extends StatelessWidget {
                         height: 200,
                         child: Image.asset(image),
                       ),
+                      const Divider(),
                       Container(
-                        margin: const EdgeInsets.only(top: 30),
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xfff5f5f5),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +99,7 @@ class HomeExerciseItem extends StatelessWidget {
                             Text(
                               title,
                               style: const TextStyle(
-                                color: Colors.black87,
+                                color: MyColors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
                               ),
@@ -145,14 +110,15 @@ class HomeExerciseItem extends StatelessWidget {
                                 const Text(
                                   'Primary: ',
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: MyColors.grey,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                                 Text(
+                                  //TODO: inja bayad ok beshe
                                   muscleText,
                                   style: const TextStyle(
-                                    color: Colors.grey,
+                                    color: MyColors.grey,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -163,14 +129,15 @@ class HomeExerciseItem extends StatelessWidget {
                                 const Text(
                                   'Secondary: ',
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: MyColors.grey,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
                                 Text(
+                                  //TODO: inja bayad ok beshe
                                   muscleText,
                                   style: const TextStyle(
-                                    color: Colors.grey,
+                                    color: MyColors.grey,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -185,120 +152,69 @@ class HomeExerciseItem extends StatelessWidget {
               );
             });
       },
-      child: Container(
-        //margin: const EdgeInsets.only(right: 10),
-        height: Get.size.height / 8,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              ),
+      child: Row(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 11 - 20,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(90),
+              border: Border.all(color: MyColors.grey, width: 1),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(90),
               child: Image.asset(
                 image,
-                width: 100,
+                fit: BoxFit.cover,
               ),
             ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  top: 30,
-                  bottom: 30,
+          ),
+          const Gap(15),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  maxLines: 1,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                  style:  TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const Gap(10),
+                Row(
                   children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                    const Text(
+                      '4 Set',
+                      style: TextStyle(
+                        color: MyColors.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
-                    const Gap(10),
-                    Row(
-                      children: const [
-                        Text(
-                          '3x14',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Gap(5),
-                        Icon(
-                          flu.FluentIcons.location_dot,
-                          color: Colors.black87,
-                          size: 20,
-                        ),
-                        Gap(5),
-                        Text(
-                          '5 min',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                    const Gap(10),
-                    Container(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Row(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Primary: ',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
-                          ),
-                          Text(
-                            muscleText,
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
-                          ),
-                          const Spacer(),
-                          Row(
-                            children: const [
-                              Text(
-                                'More',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Gap(5),
-                              Icon(
-                                Icons.arrow_upward_rounded,
-                                size: 20,
-                                color: Colors.yellow,
-                              ),
-                            ],
-                          ),
-                        ],
+                    const Gap(30),
+                    Text(
+                      muscleText,
+                      style: const TextStyle(
+                        color: MyColors.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon:  const Icon(Icons.arrow_right,color: MyColors.mainColor,),
+          )
+        ],
       ),
     );
   }
