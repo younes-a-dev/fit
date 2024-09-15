@@ -41,6 +41,7 @@ import 'package:workout/screen/statistics_screen.dart';
 import 'package:workout/theme/custom_theme.dart';
 import 'package:workout/theme/config.dart';
 
+import 'provider/auth.dart';
 import 'provider/measure.dart';
 import 'screen/alert_screen.dart';
 import 'screen/forget_password_screen.dart';
@@ -86,6 +87,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Auth(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => Exercises(),
         ),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:workout/screen/forget_password_screen.dart';
+import '../../model/http_exception.dart';
+import '../../provider/auth.dart';
 import '../../res/colors.dart';
 import '../../widgets/custom_textfield_widget.dart';
 import '../intro_slider.dart';
@@ -21,13 +24,21 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
+        final GlobalKey<FormState> _formKey = GlobalKey();
+
   late AnimationController _animationController;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isRemember = false;
+  var _isLoading = false;
   AuthMode _authMode = AuthMode.login;
   late Animation<Offset> _slidAnimation;
   late Animation<double> _opacityAnimation;
+
+  Map<String, dynamic> _authData = {
+    'email': '',
+    'password': '',
+  };
 
   @override
   void initState() {
@@ -52,6 +63,74 @@ class _AuthScreenState extends State<AuthScreen>
     _animationController.dispose();
     super.dispose();
   }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Okay'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+
+Future<void> _submit() async {
+    // if (!_formKey.currentState.validate()) {
+    //   // Invalid!
+    //   return;
+    // }
+    _formKey.currentState?.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      if (_authMode == AuthMode.login) {
+        // Log user in
+        await Provider.of<Auth>(context, listen: false).login(
+          _authData['email'],
+          _authData['password'],
+        );
+      } else {
+        // Sign user up
+        await Provider.of<Auth>(context, listen: false).signup(
+          _authData['email'],
+          _authData['password'],
+        );
+      }
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed';
+      if (error.toString().contains('EMAIL_EXISTS')) {
+        errorMessage = 'This email address is already in use.';
+      } else if (error.toString().contains('INVALID_EMAIL')) {
+        errorMessage = 'This is not a valid email address';
+      } else if (error.toString().contains('WEAK_PASSWORD')) {
+        errorMessage = 'This password is too weak.';
+      } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+        errorMessage = 'Could not find a user with that email.';
+      } else if (error.toString().contains('INVALID_PASSWORD')) {
+        errorMessage = 'Invalid password.';
+      }
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage =
+          'Could not authenticate you. Please try again later.';
+      _showErrorDialog(errorMessage);
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +183,34 @@ class _AuthScreenState extends State<AuthScreen>
               // ),
               child: Column(
                 children: [
+                //   TextFormField(
+                //   decoration: const InputDecoration(labelText: 'E-Mail'),
+                //   keyboardType: TextInputType.emailAddress,
+                //   validator: (value) {
+                //     if (value!.isEmpty || !value.contains('@')) {
+                //       return 'Invalid email!';
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (value) {
+                //     _authData['email'] = value;
+                //   },
+                // ),
+                //   const Gap(20),
+                //  TextFormField(
+                //   decoration: const InputDecoration(labelText: 'Password'),
+                //   obscureText: true,
+                //   controller: _passwordController,
+                //   validator: (value) {
+                //     if (value!.isEmpty || value.length < 5) {
+                //       return 'Password is too short!';
+                //     }
+                //     return null;
+                //   },
+                //   onSaved: (value) {
+                //     _authData['password'] = value;
+                //   },
+                // ),
                   CustomTextFieldWidget(
                     controller: _emailController,
                     hintText: 'Email Address',
@@ -136,6 +243,19 @@ class _AuthScreenState extends State<AuthScreen>
                               prefixIcon: flu.FluentIcons.lock_solid,
                               onChangeFunction: (value) {},
                             ),
+                  //           TextFormField(
+                  //   enabled: _authMode == AuthMode.signup,
+                  //   decoration: const InputDecoration(labelText: 'Confirm Password'),
+                  //   obscureText: true,
+                  //   validator: _authMode == AuthMode.signup
+                  //       ? (value) {
+                  //           if (value != _passwordController.text) {
+                  //             return 'Passwords do not match!';
+                  //           }
+                  //         }
+                  //       : null,
+                  // ),
+                           
                           ],
                         ),
                       ),
@@ -193,8 +313,11 @@ class _AuthScreenState extends State<AuthScreen>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: ElevatedButton(
-                onPressed: () {
+              child:
+              ElevatedButton(
+                onPressed:
+                // _submit,
+                () {
                   Navigator.of(context).pushNamed(IntroSlider.routeName);
                 },
                 child: Text(
