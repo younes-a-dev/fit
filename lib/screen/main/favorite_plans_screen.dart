@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/widgets/custom_plans_item.dart';
-import 'package:workout/widgets/hex_fit_plans_item.dart';
+import '../../widgets/custom_plans_item.dart';
+import '../../widgets/hex_fit_plans_item.dart';
 
 import '../../provider/plan.dart';
 import '../../res/colors.dart';
@@ -77,11 +77,16 @@ class _FavoritePlansScreenState extends State<FavoritePlansScreen>
                 enableFeedback: false,
                 splashBorderRadius: BorderRadius.circular(15),
                 indicatorColor: const Color(0xffffd600),
+                labelStyle: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff2e2e2e),
+                  fontFamily: 'Raleway'),
                 // indicator: CircleTabIndicator(color: Colors.black, radius: 4),
                 //indicatorPadding: EdgeInsets.only(left: 30,right: 30),
                 indicatorWeight: 2.5,
                 //padding: EdgeInsets.only(left: 10),
-                //TODO: label padding
+                dividerColor: Colors.transparent,
+              tabAlignment: TabAlignment.start,
                 labelPadding: const EdgeInsets.only(
                     left: 20, right: 20, top: 15, bottom: 15),
                 tabs: const [

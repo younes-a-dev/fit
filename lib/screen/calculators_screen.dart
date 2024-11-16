@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:workout/screen/calculator_screens/body_mass_index_screen.dart';
-import 'package:workout/screen/calculator_screens/calories_burned_screen.dart';
-import 'package:workout/screen/calculator_screens/daily_calorie_calculator_screen.dart';
+import '../../screen/calculator_screens/body_mass_index_screen.dart';
+import '../../screen/calculator_screens/calories_burned_screen.dart';
+import '../../screen/calculator_screens/daily_calorie_calculator_screen.dart';
 
 import '../res/colors.dart';
 import '../widgets/app_bar_widget.dart';

@@ -1,6 +1,5 @@
-import 'package:workout/model/session_model.dart';
-
 import '../provider/plan.dart';
+import 'session_model.dart';
 
 class WorkoutHistoryModel {
   final String id;

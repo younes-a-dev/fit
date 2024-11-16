@@ -39,13 +39,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           // Appbar
           Container(
-            height: (Get.size.height) / 10,
-            width: Get.size.width,
+            height: (size.height) / 10,
+            width: size.width,
             margin: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
               left: 16,
@@ -55,8 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RichText(
-                  text:  TextSpan(
-                      style:   TextStyle(
+                  text: TextSpan(
+                      style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -161,10 +162,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 .sessionExercises!
                                                                 .length
                                                         ? const Gap(10)
-                                                        :  Divider(
-                                                      color: Theme.of
-                                                        (context).canvasColor,
-                                                    ),
+                                                        : Divider(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .canvasColor,
+                                                          ),
                                                   ],
                                                 ),
                                               ),

@@ -23,7 +23,7 @@ class _IntroSliderState extends State<IntroSlider> {
         child: Column(
           children: [
             Image.asset(image),
-            Gap(Get.size.height / 4),
+            Gap(MediaQuery.of(context).size.height / 4),
           ],
         ),
       ),

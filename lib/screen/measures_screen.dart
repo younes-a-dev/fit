@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/widgets/app_bar_widget.dart';
+import '../../widgets/app_bar_widget.dart';
 import '../provider/measure.dart';
 import '../res/colors.dart';
 import 'log_measurement_screen.dart';
@@ -297,12 +297,12 @@ class _MeasuresScreenState extends State<MeasuresScreen> {
                         isVisible: true,
                         tickPosition: TickPosition.inside,
                       ),
-                      primaryYAxis: NumericAxis(
-                        axisLine: const AxisLine(width: 0),
+                      primaryYAxis:   NumericAxis(
+                        axisLine: AxisLine(width: 0),
                         majorTickLines:
-                            const MajorTickLines(color: Colors.transparent),
+                            MajorTickLines(color: Colors.transparent),
                       ),
-                      series: <ChartSeries>[
+                      series: [
                         LineSeries<Measure, DateTime>(
                           // name: 'Body Weight',
                           dataSource: measureList,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:workout/model/session_model.dart';
-import 'package:workout/provider/plan.dart';
-import 'package:workout/model/workout_history_model.dart';
+import '../model/session_model.dart';
+import '../provider/plan.dart';
+import '../model/workout_history_model.dart';
 
 enum FirstWeekDay {
   monday,

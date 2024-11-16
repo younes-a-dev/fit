@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart' as ts;
-import 'package:workout/bottom_navigator.dart';
+import '../../bottom_navigator.dart';
 import '../provider/user_setting.dart';
 import '../res/colors.dart';
 

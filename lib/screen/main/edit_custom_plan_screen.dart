@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/screen/main/add_exercise_screen.dart';
+import '../../screen/main/add_exercise_screen.dart';
 
 import '../../provider/exercise.dart';
 import '../../provider/plan.dart';

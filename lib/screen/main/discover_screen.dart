@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/widgets/home_and_club_plans_item.dart';
+import '../../widgets/home_and_club_plans_item.dart';
 
 import '../../provider/plan.dart';
 import '../../res/colors.dart';
@@ -29,18 +29,18 @@ class _DiscoverScreenState extends State<DiscoverScreen>
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           // Appbar
           Container(
-            height: (Get.size.height) / 10,
-            width: Get.size.width,
+            height: (size.height) / 10,
+            width:size.width,
             margin: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
               left: 20,
               right: 20,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RichText(
                   text: TextSpan(
@@ -63,50 +63,39 @@ class _DiscoverScreenState extends State<DiscoverScreen>
                     ],
                   ),
                 ),
-                const Spacer(),
-                // IconButton(
-                //   onPressed: () {
-                //     Navigator.of(context).pushNamed(AlertScreen.routeName);
-                //   },
-                //   icon: const Icon(
-                //     flu.FluentIcons.ringer_active,
-                //     color: Colors.black,
-                //   ),
-                // ),
               ],
             ),
           ),
           // Tab Bar
           SizedBox(
             height: 60,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TabBar(
-                physics: const BouncingScrollPhysics(),
-                controller: _tabController,
-                isScrollable: true,
-                enableFeedback: false,
-                splashBorderRadius: BorderRadius.circular(15),
-                indicatorColor: MyColors.mainColor,
-                // indicator: CircleTabIndicator(color: Colors.black, radius: 4),
-                //indicatorPadding: EdgeInsets.only(left: 30,right: 30),
-                indicatorWeight: 2.5,
-                labelStyle: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff2e2e2e),
-                    fontFamily: 'Raleway'),
-                //padding: EdgeInsets.only(left: 10),
-                //TODO: label padding
-                labelPadding: const EdgeInsets.only(
-                    left: 20, right: 20, top: 15, bottom: 15),
-                labelColor: Theme.of(context).primaryColor,
-                unselectedLabelColor: MyColors.grey,
-                tabs: const [
-                  Text('Home Workout'),
-                  Text('Club'),
-                  Text('Plans'),
-                ],
-              ),
+            child: TabBar(
+              physics: const BouncingScrollPhysics(),
+              controller: _tabController,
+              isScrollable: true,
+              enableFeedback: false,
+              splashBorderRadius: BorderRadius.circular(15),
+              indicatorColor: MyColors.mainColor,
+              // indicator: CircleTabIndicator(color: Colors.black, radius: 4),
+              //indicatorPadding: EdgeInsets.only(left: 30,right: 30),
+              indicatorWeight: 2.5,
+              labelStyle: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff2e2e2e),
+                  fontFamily: 'Raleway'),
+              // padding: EdgeInsets.only(left: 10),
+              labelPadding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 15, bottom: 15),
+              labelColor: Theme.of(context).primaryColor,
+              unselectedLabelColor: MyColors.grey,
+              dividerColor: Colors.transparent,
+              tabAlignment: TabAlignment.start,
+              // padding: EdgeInsets.only(left: ),
+              tabs: const [
+                Text('Home Workout'),
+                Text('Club'),
+                Text('Plans'),
+              ],
             ),
           ),
 

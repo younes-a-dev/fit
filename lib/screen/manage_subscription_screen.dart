@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
-import 'package:workout/widgets/app_bar_widget.dart';
+import '../../widgets/app_bar_widget.dart';
 
 import '../res/colors.dart';
 

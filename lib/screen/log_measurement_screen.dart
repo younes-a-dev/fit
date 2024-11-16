@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/widgets/app_bar_widget.dart';
-import 'package:workout/widgets/custom_textfield_widget.dart';
+import '../../widgets/app_bar_widget.dart';
+import '../../widgets/custom_textfield_widget.dart';
 
 import '../provider/measure.dart';
 import '../res/colors.dart';

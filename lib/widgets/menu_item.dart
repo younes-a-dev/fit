@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout/model/menu_item_model.dart';
+import '../../model/menu_item_model.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 
 import '../res/colors.dart';

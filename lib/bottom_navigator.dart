@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
-import 'package:workout/screen/main/create_custom_plan_screen.dart';
+import '../../screen/main/create_custom_plan_screen.dart';
 
 import 'screen/main/discover_screen.dart';
 import 'screen/main/home_screen.dart';

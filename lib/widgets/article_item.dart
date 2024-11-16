@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:workout/provider/articles.dart';
+import '../../provider/articles.dart';
 
 import '../screen/Article_detail_screen.dart';
 

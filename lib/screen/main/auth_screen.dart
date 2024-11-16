@@ -3,7 +3,7 @@ import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:workout/screen/forget_password_screen.dart';
+import '../../screen/forget_password_screen.dart';
 import '../../model/http_exception.dart';
 import '../../provider/auth.dart';
 import '../../res/colors.dart';
@@ -141,7 +141,7 @@ Future<void> _submit() async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Gap(Get.size.height / 9.5),
+            Gap(size.height / 9.5),
             SizedBox(
               height: size.height * .2,
               width: size.width * .7,
@@ -309,7 +309,7 @@ Future<void> _submit() async {
             Container(
               margin: const EdgeInsets.only(left: 35, right: 35, top: 40),
               height: 60,
-              width: Get.size.width,
+              width: size.width,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),

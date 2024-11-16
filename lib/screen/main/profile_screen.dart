@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:gap/gap.dart';
-import 'package:workout/screen/about_us_screen.dart';
-import 'package:workout/screen/calculators_screen.dart';
-import 'package:workout/screen/care_plans_screen.dart';
-import 'package:workout/screen/edit_profile_screen.dart';
-import 'package:workout/screen/main/favorite_plans_screen.dart';
-import 'package:workout/screen/manage_subscription_screen.dart';
-import 'package:workout/screen/measures_screen.dart';
-import 'package:workout/screen/main/settings_screen.dart';
-import 'package:workout/screen/statistics_screen.dart';
+import '../../screen/about_us_screen.dart';
+import '../../screen/calculators_screen.dart';
+import '../../screen/care_plans_screen.dart';
+import '../../screen/edit_profile_screen.dart';
+import '../../screen/main/favorite_plans_screen.dart';
+import '../../screen/manage_subscription_screen.dart';
+import '../../screen/measures_screen.dart';
+import '../../screen/main/settings_screen.dart';
+import '../../screen/statistics_screen.dart';
 
 import '../../model/menu_item_model.dart';
 import '../../res/colors.dart';

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart' as ts;
-import 'package:workout/widgets/toggle_switch_widget.dart';
+import '../../widgets/toggle_switch_widget.dart';
 
 import '../provider/user_setting.dart';
 import '../res/colors.dart';
@@ -180,7 +180,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Gap(Get.size.height / 10),
+          Gap(size.height / 10),
           Text(
             'SET YOUR WEEKLY GOAL',
             textAlign: TextAlign.center,
@@ -211,7 +211,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           Align(
             alignment: Alignment.center,
             child: ts.ToggleSwitch(
-              minWidth: Get.size.width / 3,
+              minWidth: size.width / 3,
               minHeight: 60.0,
               fontSize: 16.0,
               initialLabelIndex: 2,
@@ -345,7 +345,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Gap(Get.size.height / 10),
+                        Gap(size.height / 10),
                         Text(
                           'LET US KNOW YOU\n BETTER',
                           textAlign: TextAlign.center,
