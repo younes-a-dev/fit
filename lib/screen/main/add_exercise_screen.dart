@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:provider/provider.dart';
-import 'package:get/get.dart';
 import 'package:gap/gap.dart';
 
 import '../../model/menu_item_model.dart';
@@ -437,8 +436,8 @@ class _AddExerciseScreenState extends State<AddExerciseScreen> {
         children: [
           // AppBar
           Container(
-            height: (Get.size.height) / 11,
-            width: Get.size.width,
+            height: (size.height) / 11,
+            width: size.width,
             padding: const EdgeInsets.only(
               //top: MediaQuery.of(context).padding.top,
               top: 30,

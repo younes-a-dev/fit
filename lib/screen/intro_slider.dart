@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gap/gap.dart';
 import 'package:introduction_slider/introduction_slider.dart';
 

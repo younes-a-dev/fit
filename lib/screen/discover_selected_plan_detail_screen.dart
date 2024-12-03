@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:provider/provider.dart';
 
@@ -26,6 +23,7 @@ class _DiscoverSelectedPlanDetailScreenState
     //final exerciseData = Provider.of<Exercises>(context);
     final routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final size = MediaQuery.of(context).size;
     final id = routeArgs['id'];
     final title = routeArgs['title'];
     final image = routeArgs['image'];
@@ -39,19 +37,19 @@ class _DiscoverSelectedPlanDetailScreenState
       body: Column(
         children: [
           SizedBox(
-            height: Get.size.height / 4,
-            width: Get.size.width,
+            height: size.height / 4,
+            width: size.width,
             child: Stack(
               children: [
                 Image.asset(
                   image,
                   fit: BoxFit.cover,
-                  height: Get.size.height / 4,
-                  width: Get.size.width,
+                  height: size.height / 4,
+                  width: size.width,
                 ),
                 Container(
-                  height: Get.size.height / 4,
-                  width: Get.size.width,
+                  height: size.height / 4,
+                  width: size.width,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -185,13 +183,16 @@ class _DiscoverSelectedPlanDetailScreenState
                                     height: 350,
                                     // width: Get.size.width/2,
                                     padding: const EdgeInsets.only(
-                                        top: 10, bottom: 10, left: 25, right: 25),
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 25,
+                                        right: 25),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
                                         SizedBox(
-                                          width: Get.size.width / 1.5,
+                                          width: size.width / 1.5,
                                           height: 200,
                                           child: Image.asset(element.image),
                                         ),
@@ -221,7 +222,8 @@ class _DiscoverSelectedPlanDetailScreenState
                                                     'Primary: ',
                                                     style: TextStyle(
                                                       color: MyColors.grey,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                   Text(
@@ -229,7 +231,8 @@ class _DiscoverSelectedPlanDetailScreenState
                                                     element.muscle.toString(),
                                                     style: const TextStyle(
                                                       color: MyColors.grey,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ],
@@ -240,7 +243,8 @@ class _DiscoverSelectedPlanDetailScreenState
                                                     'Secondary: ',
                                                     style: TextStyle(
                                                       color: MyColors.grey,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                   Text(
@@ -248,7 +252,8 @@ class _DiscoverSelectedPlanDetailScreenState
                                                     element.muscle.toString(),
                                                     style: const TextStyle(
                                                       color: MyColors.grey,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                   ),
                                                 ],
@@ -310,8 +315,9 @@ class _DiscoverSelectedPlanDetailScreenState
                                           maxLines: 1,
                                           softWrap: true,
                                           overflow: TextOverflow.ellipsis,
-                                          style:  TextStyle(
-                                            color: Theme.of(context).primaryColor,
+                                          style: TextStyle(
+                                            color:
+                                                Theme.of(context).primaryColor,
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -350,8 +356,10 @@ class _DiscoverSelectedPlanDetailScreenState
                                 ],
                               ),
                             ),
-                             const Divider(color:MyColors.grey,indent:20,
-                                 endIndent:20),
+                            const Divider(
+                                color: MyColors.grey,
+                                indent: 20,
+                                endIndent: 20),
                           ],
                         ),
                       ),

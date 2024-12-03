@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart' as ts;
 import '../../widgets/toggle_switch_widget.dart';

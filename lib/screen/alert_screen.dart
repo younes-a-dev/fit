@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
-import 'package:get/get.dart';
 import 'package:gap/gap.dart';
 
 class AlertScreen extends StatelessWidget {
@@ -16,13 +15,15 @@ class AlertScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
           // Appbar
           Container(
-            height: (Get.size.height) / 10,
-            width: Get.size.width,
+            height: (size.height) / 10,
+            width: size.width,
             margin: EdgeInsets.only(
               top: MediaQuery.of(context).padding.top,
               left: 35,
@@ -33,7 +34,7 @@ class AlertScreen extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    Get.back();
+                    Navigator.of(context).pop();
                   },
                   icon: const Icon(
                     flu.FluentIcons.chrome_back,
@@ -55,7 +56,7 @@ class AlertScreen extends StatelessWidget {
           // Gap(20),
           Expanded(
             child: Container(
-              width: Get.size.width,
+              width: size.width,
               margin: const EdgeInsets.only(right: 35, left: 35, bottom: 35),
               decoration: BoxDecoration(
                 //color: Color(0xfff1f1f1),

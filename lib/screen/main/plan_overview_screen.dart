@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:easy_stepper/easy_stepper.dart';
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -137,7 +136,7 @@ class _PlanOverviewScreenState extends State<PlanOverviewScreen>
                                                             .center,
                                                     children: [
                                                       SizedBox(
-                                                        width: Get.size.width /
+                                                        width: size.width /
                                                             1.5,
                                                         height: 200,
                                                         child: Image.asset(

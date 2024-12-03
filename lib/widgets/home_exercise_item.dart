@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:gap/gap.dart';
 
 import '../provider/exercise.dart';
@@ -63,6 +62,7 @@ class HomeExerciseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -81,7 +81,7 @@ class HomeExerciseItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        width: Get.size.width / 1.5,
+                        width: size.width / 1.5,
                         height: 200,
                         child: Image.asset(image),
                       ),
@@ -177,7 +177,7 @@ class HomeExerciseItem extends StatelessWidget {
                   maxLines: 1,
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
-                  style:  TextStyle(
+                  style: TextStyle(
                     color: Theme.of(context).primaryColor,
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -210,7 +210,10 @@ class HomeExerciseItem extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon:  const Icon(Icons.arrow_right,color: MyColors.mainColor,),
+            icon: const Icon(
+              Icons.arrow_right,
+              color: MyColors.mainColor,
+            ),
           )
         ],
       ),

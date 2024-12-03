@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:gap/gap.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../screen/forget_password_screen.dart';
 import '../../model/http_exception.dart';
