@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import '../../common/cubit/button_cubit.dart';
+import '../../common/cubit/button_state.dart';
+import '../../features/feature_auth/domin/usecase/logout_usecase.dart';
+import '../../features/feature_auth/presentation/screens/auth_screen.dart';
+import '../../locator.dart';
 import '../../screen/about_us_screen.dart';
 import '../../screen/calculators_screen.dart';
 import '../../screen/care_plans_screen.dart';
@@ -80,265 +86,312 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
+  Future<void> _dialog(String content, Color contentColor) {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 26),
+        content: Text(
+          content,
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              height: 48,
+              width: 282,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: const Color(0xff00a996),
+              ),
+              child: Text(
+                'OK',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Column(
-        //****** AppBar
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Gap(size.height / 25),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Container(
-              height: size.height / 10,
-              width: size.width,
-              decoration: BoxDecoration(
-                //color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(16),
-              ),
+    return BlocListener<ButtonCubit,ButtonState>(
+      listener: (context,state){
+        if(state is ButtonStateSuccess){
+           Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const AuthScreen()));
+        }
+        if (state is ButtonStateFailure) {
+          _dialog(
+            '''Logout Failed, Try again!''',
+            const Color(0xffe63230),
+          );
+        }
+      },
+      child: Scaffold(
+        body: Column(
+          //****** AppBar
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Gap(size.height / 25),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Profile',
-                          style: TextStyle(
-                            color: MyColors.mainColor,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+                height: size.height / 10,
+                width: size.width,
+                decoration: BoxDecoration(
+                  //color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'Profile',
+                            style: TextStyle(
+                              color: MyColors.mainColor,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    PopupMenuButton<ProfileMenuItemModel>(
-                      color: Theme.of(context).primaryColorDark,
-                      icon: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          //TODO: image place holder
-                          color: MyColors.grey,
-                          borderRadius: BorderRadius.circular(90),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(90),
-                          child: Image.asset(
-                            'assets/images/jonah.jpeg',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
+                        ],
                       ),
-                      iconSize: MediaQuery.of(context).size.height / 22,
-                      offset: const Offset(-30, 30),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
-                      onSelected: (item) => onSelected(context, item),
-                      itemBuilder: ((context) => [
-                            ...menItem.MenuItem.firstItems
-                                .map(buildItem)
-                                .toList(),
-                            //PopupMenuDivider(),
-                            ...menItem.MenuItem.secondItems
-                                .map(buildItem)
-                                .toList(),
-                            //PopupMenuDivider(),
-                            ...menItem.MenuItem.thirdItems
-                                .map(buildItem)
-                                .toList(),
-                          ]),
-                    )
-                  ],
+                      PopupMenuButton<ProfileMenuItemModel>(
+                        color: Theme.of(context).primaryColorDark,
+                        icon: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            //TODO: image place holder
+                            color: MyColors.grey,
+                            borderRadius: BorderRadius.circular(90),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(90),
+                            child: Image.asset(
+                              'assets/images/jonah.jpeg',
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                        iconSize: MediaQuery.of(context).size.height / 22,
+                        offset: const Offset(-30, 30),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                        onSelected: (item) => onSelected(context, item),
+                        itemBuilder: ((context) => [
+                              ...menItem.MenuItem.firstItems
+                                  .map(buildItem)
+                                  .toList(),
+                              //PopupMenuDivider(),
+                              ...menItem.MenuItem.secondItems
+                                  .map(buildItem)
+                                  .toList(),
+                              //PopupMenuDivider(),
+                              ...menItem.MenuItem.thirdItems
+                                  .map(buildItem)
+                                  .toList(),
+                            ]),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 25),
-                          child: Text(
-                            'Dashboard',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 20,
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25),
+                            child: Text(
+                              'Dashboard',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
-                        ),
-                        const Gap(16),
-                        _buildListTile(
-                          () {
-                            Navigator.of(context).pushNamed(
-                              FavoritePlansScreen.routeName,
-                            );
-                          },
-                          Icons.collections_bookmark_rounded,
-                          20,
-                          'Favorite Plans',
-                          false,
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {
+                          const Gap(16),
+                          _buildListTile(
+                            () {
+                              Navigator.of(context).pushNamed(
+                                FavoritePlansScreen.routeName,
+                              );
+                            },
+                            Icons.collections_bookmark_rounded,
+                            20,
+                            'Favorite Plans',
+                            false,
+                          ),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                          ),
+                          _buildListTile(
+                            () {
+                              Navigator.of(context)
+                                  .pushNamed(CarePlansScreen.routeName);
+                            },
+                            flu.FluentIcons.care_plan,
+                            20,
+                            'Care Plan',
+                            true,
+                          ),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                          ),
+                          _buildListTile(
+                            () {
+                              Navigator.of(context).pushNamed(
+                                CalculatorsScreen.routeName,
+                              );
+                            },
+                            flu.FluentIcons.calculator,
+                            20,
+                            'Calculators',
+                            false,
+                          ),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                          ),
+                          _buildListTile(
+                            () {
+                              Navigator.of(context).pushNamed(
+                                MeasuresScreen.routeName,
+                              );
+                            },
+                            Icons.accessibility,
+                            22,
+                            'Measures',
+                            false,
+                          ),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                          ),
+                          _buildListTile(
+                            () {
+                              Navigator.of(context).pushNamed(
+                                StatisticsScreen.routeName,
+                              );
+                            },
+                            Icons.show_chart,
+                            22,
+                            'Statistics',
+                            true,
+                          ),
+                        ],
+                      ),
+                    ),
+      
+                    // settings column
+                    Container(
+                      margin: const EdgeInsets.only(top: 32),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25),
+                            child: Text(
+                              'Settings',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          const Gap(16),
+                          _buildListTile(() {
                             Navigator.of(context)
-                                .pushNamed(CarePlansScreen.routeName);
-                          },
-                          flu.FluentIcons.care_plan,
-                          20,
-                          'Care Plan',
-                          true,
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {
-                            Navigator.of(context).pushNamed(
-                              CalculatorsScreen.routeName,
-                            );
-                          },
-                          flu.FluentIcons.calculator,
-                          20,
-                          'Calculators',
-                          false,
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {
-                            Navigator.of(context).pushNamed(
-                              MeasuresScreen.routeName,
-                            );
-                          },
-                          Icons.accessibility,
-                          22,
-                          'Measures',
-                          false,
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {
-                            Navigator.of(context).pushNamed(
-                              StatisticsScreen.routeName,
-                            );
-                          },
-                          Icons.show_chart,
-                          22,
-                          'Statistics',
-                          true,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // settings column
-                  Container(
-                    margin: const EdgeInsets.only(top: 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 25),
-                          child: Text(
-                            'Settings',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 20,
-                            ),
+                                .pushNamed(WorkoutSettingScreen.routeName);
+                          }, Icons.fitness_center_outlined, 20, 'Workout', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(() {
+                            Navigator.of(context)
+                                .pushNamed(UnitsSettingScreen.routeName);
+                          }, Icons.straighten_rounded, 20, 'Units', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(() {
+                            Navigator.of(context)
+                                .pushNamed(GuideSettingScreen.routeName);
+                          }, Icons.lightbulb_outline_rounded, 22, 'Guide', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(() {
+                            Navigator.of(context)
+                                .pushNamed(ThemeSettingScreen.routeName);
+                          }, Icons.dark_mode, 22, 'Theme', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(() {
+                            Navigator.of(context)
+                                .pushNamed(GoogleFitSettingScreen.routeName);
+                          }, Icons.link, 22, 'Google Fit', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(
+                              () {}, Icons.mail, 22, 'Invite Friend', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(() {}, Icons.star, 22, 'Rate Us', false),
+                          const Divider(indent: 50, endIndent: 50),
+                          _buildListTile(
+                              () {}, Icons.create, 22, 'Feedback', false),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
                           ),
-                        ),
-                        const Gap(16),
-                        _buildListTile(() {
-                          Navigator.of(context)
-                              .pushNamed(WorkoutSettingScreen.routeName);
-                        }, Icons.fitness_center_outlined, 20, 'Workout', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(() {
-                          Navigator.of(context)
-                              .pushNamed(UnitsSettingScreen.routeName);
-                        }, Icons.straighten_rounded, 20, 'Units', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(() {
-                          Navigator.of(context)
-                              .pushNamed(GuideSettingScreen.routeName);
-                        }, Icons.lightbulb_outline_rounded, 22, 'Guide', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(() {
-                          Navigator.of(context)
-                              .pushNamed(ThemeSettingScreen.routeName);
-                        }, Icons.dark_mode, 22, 'Theme', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(() {
-                          Navigator.of(context)
-                              .pushNamed(GoogleFitSettingScreen.routeName);
-                        }, Icons.link, 22, 'Google Fit', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(
-                            () {}, Icons.mail, 22, 'Invite Friend', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(() {}, Icons.star, 22, 'Rate Us', false),
-                        const Divider(indent: 50, endIndent: 50),
-                        _buildListTile(
-                            () {}, Icons.create, 22, 'Feedback', false),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {},
-                          Icons.bug_report,
-                          22,
-                          'Report Bugs',
-                          false,
-                        ),
-                        const Divider(
-                          indent: 50,
-                          endIndent: 50,
-                        ),
-                        _buildListTile(
-                          () {},
-                          Icons.info_outline_rounded,
-                          22,
-                          'About '
-                          'Us',
-                          false,
-                        ),
-                        //TODO: create another one for terms
-                      ],
+                          _buildListTile(
+                            () {},
+                            Icons.bug_report,
+                            22,
+                            'Report Bugs',
+                            false,
+                          ),
+                          const Divider(
+                            indent: 50,
+                            endIndent: 50,
+                          ),
+                          _buildListTile(
+                            () {},
+                            Icons.info_outline_rounded,
+                            22,
+                            'About '
+                            'Us',
+                            false,
+                          ),
+                          //TODO: create another one for terms
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -410,5 +463,10 @@ void onSelected(BuildContext context, ProfileMenuItemModel item) {
     case menItem.MenuItem.itemAboutUs:
       Navigator.of(context).pushNamed(AboutUsScreen.routeName);
       break;
+    case menItem.MenuItem.itemLogOut:
+      context.read<ButtonCubit>().execute(usecase: sl<LogoutUsecase>());
   }
+
+
+  
 }

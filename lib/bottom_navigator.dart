@@ -9,7 +9,7 @@ import 'screen/main/profile_screen.dart';
 class BottomNavigator extends StatefulWidget {
   BottomNavigator({Key? key}) : super(key: key);
 
-  static const routeName = '/Login-SignupScreen->BottomNavigator';
+  static const routeName = 'BottomNavigator';
 
   @override
   State<BottomNavigator> createState() => _BottomNavigatorState();

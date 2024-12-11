@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import '../../provider/articles.dart';
 import '../../provider/exercise.dart';
@@ -39,16 +40,25 @@ import '../../screen/statistics_screen.dart';
 import '../../theme/custom_theme.dart';
 import '../../theme/config.dart';
 
+import 'common/cubit/button_cubit.dart';
+import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
+import 'features/feature_auth/presentation/screens/change_pass_screen.dart';
+import 'features/feature_auth/presentation/screens/code_verification_screen.dart';
+import 'features/feature_intro/presentation/bloc/splash_cubit/splash_cubit.dart';
+import 'features/feature_intro/presentation/screens/splash_screen.dart';
+import 'locator.dart';
 import 'provider/auth.dart';
 import 'provider/measure.dart';
 import 'screen/alert_screen.dart';
-import 'screen/forget_password_screen.dart';
-import 'screen/intro_slider.dart';
-import 'screen/main/auth_screen.dart';
+import 'features/feature_auth/presentation/screens/enter_email_for_pass_reset_screen.dart';
+import 'features/feature_intro/presentation/screens/intro_slider.dart';
+import 'features/feature_auth/presentation/screens/auth_screen.dart';
 import 'screen/discover_selected_plan_detail_screen.dart';
 import 'bottom_navigator.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarBrightness: Brightness.dark,
     statusBarIconBrightness: Brightness.dark,
@@ -58,6 +68,7 @@ void main() {
     systemNavigationBarContrastEnforced: true,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
+  await setup();
   // SystemChrome.setEnabledSystemUIMode(
   //   SystemUiMode.manual,
   // );
@@ -83,26 +94,36 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => Auth(),
+        BlocProvider(
+          create: (context) => SplashCubit(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Exercises(),
+        BlocProvider(
+          create: (context) => AuthCubit(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Measures(),
+        BlocProvider(
+          create: (context) => ButtonCubit(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Plans(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => Articles(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => User(),
-        ),
+
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Auth(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Exercises(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Measures(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Plans(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => Articles(),
+        // ),
+        // ChangeNotifierProvider(
+        //   create: (ctx) => User(),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -119,15 +140,19 @@ class _MyAppState extends State<MyApp> {
         theme: CustomTheme.lightTheme,
         darkTheme: CustomTheme.darkTheme,
         themeMode: currentTheme.currentTheme,
-        home: const AuthScreen(),
+        home: SplashScreen(),
         // CaloriesBurnedScreen(),
         //const AuthScreen(),
         // IntroSlider(),
         //  OnBoardingScreen(),
         initialRoute: '/',
         routes: {
+          AuthScreen.routeName: (ctx) => const AuthScreen(),
+          CodeVerificationScreen.routeName: (ctx) => CodeVerificationScreen(),
+          ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
           AddExerciseScreen.routeName: (ctx) => const AddExerciseScreen(),
-          ForgetPasswordScreen.routeName: (ctx) => const ForgetPasswordScreen(),
+          EnterEmailForPassResetScreen.routeName: (ctx) =>
+              const EnterEmailForPassResetScreen(),
           BottomNavigator.routeName: (ctx) => BottomNavigator(),
           IntroSlider.routeName: (ctx) => IntroSlider(),
           AlertScreen.routeName: (ctx) => AlertScreen(),
@@ -148,12 +173,14 @@ class _MyAppState extends State<MyApp> {
           UnitsSettingScreen.routeName: (ctx) => const UnitsSettingScreen(),
           GuideSettingScreen.routeName: (ctx) => const GuideSettingScreen(),
           ThemeSettingScreen.routeName: (ctx) => const ThemeSettingScreen(),
-          GoogleFitSettingScreen.routeName: (ctx) => const GoogleFitSettingScreen(),
+          GoogleFitSettingScreen.routeName: (ctx) =>
+              const GoogleFitSettingScreen(),
           SelectFirstWeekDayScreen.routeName: (ctx) =>
               const SelectFirstWeekDayScreen(),
           // Calculators screen route
           BodyMassIndexScreen.routeName: (ctx) => const BodyMassIndexScreen(),
-          BodyFatPercentageScreen.routeName: (ctx) => const BodyFatPercentageScreen(),
+          BodyFatPercentageScreen.routeName: (ctx) =>
+              const BodyFatPercentageScreen(),
           CaloriesBurnedScreen.routeName: (ctx) => CaloriesBurnedScreen(),
           DailyCalorieCalculatorScreen.routeName: (ctx) =>
               DailyCalorieCalculatorScreen(),
@@ -168,8 +195,8 @@ class _MyAppState extends State<MyApp> {
           OnBoardingScreen.routeName: (ctx) => const OnBoardingScreen(),
           SelectedHexFitPlanScreen.routeName: (ctx) =>
               const SelectedHexFitPlanScreen(),
-          CreatePlanScreen.routeName: (ctx)=> const CreatePlanScreen(),
-          ChangePasswordScreen.routeName : (ctx) => const ChangePasswordScreen(),
+          CreatePlanScreen.routeName: (ctx) => const CreatePlanScreen(),
+          ChangePasswordScreen.routeName: (ctx) => const ChangePasswordScreen(),
           InitUserInfo.routeName: (ctx) => const InitUserInfo(),
         },
       ),

@@ -9,7 +9,7 @@ import '../res/colors.dart';
 class InitUserInfo extends StatefulWidget {
   const InitUserInfo({Key? key}) : super(key: key);
 
-  static const routeName = '/intro slider --> Init User Info';
+  static const routeName = 'InitUserInfo';
 
   @override
   State<InitUserInfo> createState() => _InitUserInfoState();

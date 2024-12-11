@@ -24,7 +24,7 @@ class CustomTextFieldWidget extends StatelessWidget {
       child: TextField(
         controller: controller,
         cursorColor: MyColors.mainColor,
-        autofocus: true,
+        autofocus: false,
         textAlignVertical: TextAlignVertical.center,
         style: const TextStyle(
           fontSize: 18,
