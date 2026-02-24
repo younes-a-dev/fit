@@ -203,7 +203,7 @@ class CustomTheme with ChangeNotifier {
       // textButtonTheme:,
       // iconTheme:,
       // primaryIconTheme:,
-      tabBarTheme: const TabBarTheme(
+      tabBarTheme: const TabBarThemeData(
         unselectedLabelColor: Colors.grey,
         labelColor: Color(0xff212121),
         indicatorSize: TabBarIndicatorSize.label,
@@ -455,7 +455,7 @@ class CustomTheme with ChangeNotifier {
       // textButtonTheme:,
       // iconTheme:,
       // primaryIconTheme:,
-      tabBarTheme: const TabBarTheme(
+      tabBarTheme: const TabBarThemeData(
         unselectedLabelColor: Colors.grey,
         labelColor: Color(0xff212121),
         indicatorSize: TabBarIndicatorSize.label,
