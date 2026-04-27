@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "837461216912",
+    "project_id": "hexfit-a0a97",
+    "storage_bucket": "hexfit-a0a97.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837461216912:android:c7199b9f0a444c8c00d215",
+        "android_client_info": {
+          "package_name": "com.example.workout"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZm9zbpAqVdi4Jh3LABVBvSQBbTeFCb1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

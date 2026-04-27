@@ -49,9 +49,9 @@ dependencies:
   fl_chart: ^0.69.0
   intl: ^0.20.2
   draw_graph: ^1.0.0
-  syncfusion_flutter_charts: ^31.2.12
+  syncfusion_flutter_charts: ^33.1.49
   custom_radio_grouped_button: ^2.2.0
-  table_calendar: ^3.0.7
+  table_calendar: ^3.2.0
   easy_stepper: ^0.8.5+1
   readmore: ^3.0.0
   flutter_speed_dial: ^7.0.0
@@ -67,6 +67,11 @@ dependencies:
   delayed_widget: ^1.1.2
   smooth_page_indicator: ^1.2.0+3
   flutter_svg: ^2.0.16
+  google_sign_in: ^7.2.0
+  firebase_core: ^4.4.0
+  firebase_auth: ^6.1.4
+  cloud_firestore: ^6.1.2
+  firebase_storage: ^13.0.6
 
 dev_dependencies:
   flutter_test:
