@@ -1,5 +1,6 @@
 class ApiUrls {
   static const baseUrl = 'https://workout-fit.liara.run/';
+  static const appStatus = '${baseUrl}app_status';
   static const register = '${baseUrl}sign_up';
   // get code for registe
   static const sendEmail = '${baseUrl}send-email/';

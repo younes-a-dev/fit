@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
-import '../../provider/articles.dart';
-import '../../provider/exercise.dart';
-import '../../provider/plan.dart';
-import '../../provider/user_setting.dart';
 import '../../screen/Article_detail_screen.dart';
 import '../../screen/about_us_screen.dart';
 import '../../screen/bmi_score_screen.dart';
@@ -40,18 +35,17 @@ import '../../screen/statistics_screen.dart';
 import '../../theme/custom_theme.dart';
 import '../../theme/config.dart';
 
-import 'common/cubit/button_cubit.dart';
 import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
 import 'features/feature_auth/presentation/screens/change_pass_screen.dart';
 import 'features/feature_auth/presentation/screens/code_verification_screen.dart';
-import 'features/feature_intro/presentation/bloc/splash_cubit/splash_cubit.dart';
-import 'features/feature_intro/presentation/screens/splash_screen.dart';
+import 'features/feature_splash/presentation/screens/splash_screen.dart';
+import 'features/feature_splash/presentation/cubit/splash_cubit.dart';
+import 'features/language/presentation/cubit/language_cubit.dart';
+import 'features/language/presentation/screens/language_selection_page.dart';
 import 'locator.dart';
-import 'provider/auth.dart';
-import 'provider/measure.dart';
 import 'screen/alert_screen.dart';
 import 'features/feature_auth/presentation/screens/enter_email_for_pass_reset_screen.dart';
-import 'features/feature_intro/presentation/screens/intro_slider.dart';
+import 'features/feature_splash/presentation/screens/intro_slider.dart';
 import 'features/feature_auth/presentation/screens/auth_screen.dart';
 import 'screen/discover_selected_plan_detail_screen.dart';
 import 'bottom_navigator.dart';
@@ -91,20 +85,22 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => SplashCubit(),
+          create: (context) => sl<SplashCubit>()..startSplash(), // Auto-start
+        ),
+        BlocProvider(
+          create: (context) => sl<LanguageCubit>(),
         ),
         BlocProvider(
           create: (context) => AuthCubit(),
         ),
-        BlocProvider(
-          create: (context) => ButtonCubit(),
-        ),
+        // BlocProvider(
+        //   create: (context) => ButtonCubit(),
+        // ),
 
         // ChangeNotifierProvider(
         //   create: (ctx) => Auth(),
@@ -148,6 +144,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         routes: {
           AuthScreen.routeName: (ctx) => const AuthScreen(),
+          LanguageSelectionPage.routeName : (ctx) => LanguageSelectionPage(),
           CodeVerificationScreen.routeName: (ctx) => CodeVerificationScreen(),
           ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
           AddExerciseScreen.routeName: (ctx) => const AddExerciseScreen(),
