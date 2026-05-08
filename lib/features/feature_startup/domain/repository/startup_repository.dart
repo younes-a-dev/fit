@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../entity/app_state_entity.dart';
 
-abstract class SplashRepository {
+abstract class StartupRepository {
   Future<Either<Failure, bool>> checkInternet();
   Future<Either<Failure, AppStateEntity>> checkAppState();
   Future<Either<Failure, bool>> checkFirstTime();

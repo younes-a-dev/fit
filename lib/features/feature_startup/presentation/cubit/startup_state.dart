@@ -1,4 +1,4 @@
-part of 'splash_cubit.dart';
+part of 'startup_cubit.dart';
 
 class SplashState {
   final CheckInternetStatus checkInternetStatus;

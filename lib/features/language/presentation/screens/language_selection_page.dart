@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/constants/enums.dart';
 import '../../../../res/colors.dart';
-import '../../../feature_splash/presentation/screens/intro_slider.dart';
+import '../../../feature_startup/presentation/screens/intro_slider.dart';
 import '../cubit/language_cubit.dart';
 
 class LanguageSelectionPage extends StatelessWidget {

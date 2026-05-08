@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/usecase/splash_usecases.dart';
+import '../../domain/usecase/startup_usecases.dart';
 import 'status/check_app_state_status.dart';
 import 'status/check_first_time_status.dart';
 import 'status/check_internet_status.dart';
 import 'status/check_logged_in_status.dart';
 import 'status/set_first_time_status.dart';
 
-part 'splash_state.dart';
+part 'startup_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   final CheckInternetUseCase _checkInternetUseCase;

@@ -3,11 +3,11 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../entity/app_state_entity.dart';
-import '../repository/splash_repository.dart';
+import '../repository/startup_repository.dart';
 
 // Check App State
 class CheckAppStateUseCase implements UseCase<Either<Failure,AppStateEntity>,NoParams>{
-  final SplashRepository _splashRepository;
+  final StartupRepository _splashRepository;
   CheckAppStateUseCase(this._splashRepository);
   @override
   Future<Either<Failure, AppStateEntity>> call({NoParams? param}) {
@@ -17,7 +17,7 @@ class CheckAppStateUseCase implements UseCase<Either<Failure,AppStateEntity>,NoP
 
 // Check FirstTime
 class CheckFirstTimeUseCase implements UseCase<Either<Failure,bool>,NoParams>{
-  final SplashRepository _splashRepository;
+  final StartupRepository _splashRepository;
   CheckFirstTimeUseCase(this._splashRepository);
   @override
   Future<Either<Failure, bool>> call({NoParams? param}) {
@@ -27,7 +27,7 @@ class CheckFirstTimeUseCase implements UseCase<Either<Failure,bool>,NoParams>{
 
 // check Logged In
 class CheckLoggedInUseCase implements UseCase<Either<Failure,bool>,NoParams>{
-  final SplashRepository _splashRepository;
+  final StartupRepository _splashRepository;
   CheckLoggedInUseCase(this._splashRepository);
   @override
   Future<Either<Failure, bool>> call({NoParams? param}) {
@@ -37,7 +37,7 @@ class CheckLoggedInUseCase implements UseCase<Either<Failure,bool>,NoParams>{
 
 // Check Connection
 class CheckInternetUseCase implements UseCase<Either<Failure,bool>,NoParams>{
-  final SplashRepository _splashRepository;
+  final StartupRepository _splashRepository;
   CheckInternetUseCase(this._splashRepository);
   @override
   Future<Either<Failure, bool>> call({NoParams? param}) {
@@ -46,7 +46,7 @@ class CheckInternetUseCase implements UseCase<Either<Failure,bool>,NoParams>{
 }
 // Set First Time to true
 class SetFirstTimeUseCase implements UseCase<Either<Failure,void>,NoParams>{
-  final SplashRepository _splashRepository;
+  final StartupRepository _splashRepository;
   SetFirstTimeUseCase(this._splashRepository);
 
   @override

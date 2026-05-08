@@ -8,7 +8,7 @@ import '../../../../res/colors.dart';
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
 import '../../../language/presentation/screens/language_selection_page.dart';
 import '../../domain/entity/app_state_entity.dart';
-import '../cubit/splash_cubit.dart';
+import '../cubit/startup_cubit.dart';
 import '../cubit/status/check_app_state_status.dart';
 import '../cubit/status/check_first_time_status.dart';
 import '../cubit/status/check_internet_status.dart';

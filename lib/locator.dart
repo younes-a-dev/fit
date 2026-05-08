@@ -13,12 +13,12 @@ import 'features/feature_auth/domin/usecase/pass_change_code_usecase.dart';
 import 'features/feature_auth/domin/usecase/send_email_usecase.dart';
 import 'features/feature_auth/domin/usecase/sign_up_usecase.dart';
 import 'features/feature_auth/domin/usecase/signin_usecase.dart';
-import 'features/feature_splash/data/data_source/splash_local_data_source.dart';
-import 'features/feature_splash/data/data_source/splash_remote_data_source.dart';
-import 'features/feature_splash/data/repository/splash_repository_impl.dart';
-import 'features/feature_splash/domain/repository/splash_repository.dart';
-import 'features/feature_splash/domain/usecase/splash_usecases.dart';
-import 'features/feature_splash/presentation/cubit/splash_cubit.dart';
+import 'features/feature_startup/data/data_source/startup_local_data_source.dart';
+import 'features/feature_startup/data/data_source/startup_remote_data_source.dart';
+import 'features/feature_startup/data/repository/startup_repository_impl.dart';
+import 'features/feature_startup/domain/repository/startup_repository.dart';
+import 'features/feature_startup/domain/usecase/startup_usecases.dart';
+import 'features/feature_startup/presentation/cubit/startup_cubit.dart';
 import 'features/language/data/data_source/language_local_data_source.dart';
 import 'features/language/data/repository/language_repository_impl.dart';
 import 'features/language/domain/repository/language_repository.dart';
@@ -60,11 +60,11 @@ Future<void> setup() async {
 
 Future<void> _initSplashFeature() async {
   // Data sources
-  sl.registerLazySingleton<SplashLocalDataSource>(() => SplashLocalDataSourceImpl(sl()));
-  sl.registerLazySingleton<SplashRemoteDataSource>(() => SplashRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<StartupLocalDataSource>(() => StartupLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<StartupRemoteDataSource>(() => StartupRemoteDataSourceImpl(sl()));
 
   // Repositories
-  sl.registerLazySingleton<SplashRepository>(() => SplashRepositoryImpl(sl(), sl()));
+  sl.registerLazySingleton<StartupRepository>(() => StartupRepositoryImpl(sl(), sl()));
 
   // Use cases
   sl.registerSingleton<CheckInternetUseCase>(CheckInternetUseCase(sl()));

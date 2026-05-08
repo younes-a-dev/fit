@@ -3,15 +3,15 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failures.dart';
 import '../../domain/entity/app_state_entity.dart';
-import '../../domain/repository/splash_repository.dart';
-import '../data_source/splash_local_data_source.dart';
-import '../data_source/splash_remote_data_source.dart';
+import '../../domain/repository/startup_repository.dart';
+import '../data_source/startup_local_data_source.dart';
+import '../data_source/startup_remote_data_source.dart';
 
-class SplashRepositoryImpl implements SplashRepository {
-  final SplashRemoteDataSource _dataSource;
-  final SplashLocalDataSource _localDataSource;
+class StartupRepositoryImpl implements StartupRepository {
+  final StartupRemoteDataSource _dataSource;
+  final StartupLocalDataSource _localDataSource;
 
-  SplashRepositoryImpl(this._dataSource,this._localDataSource);
+  StartupRepositoryImpl(this._dataSource,this._localDataSource);
 
   @override
   Future<Either<Failure, bool>> checkInternet() async {

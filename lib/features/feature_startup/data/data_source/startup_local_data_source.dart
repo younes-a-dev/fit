@@ -4,13 +4,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 // TODO: delete this line
 const bool USE_MOCK = true;
 
-abstract class SplashLocalDataSource {
+abstract class StartupLocalDataSource {
   Future<bool> checkLoggedIn();
   Future<bool> checkFirstTime();
   Future<void> setFirstTime();
 }
 
-class SplashLocalDataSourceImpl implements SplashLocalDataSource {
+class StartupLocalDataSourceImpl implements StartupLocalDataSource {
   final SharedPreferences _pref;
 
   // todo: uncomment when firebase is ready
@@ -22,7 +22,7 @@ class SplashLocalDataSourceImpl implements SplashLocalDataSource {
   // if using custom backend
   // static const String _authTokenKey = 'auth_token';
 
-  SplashLocalDataSourceImpl(
+  StartupLocalDataSourceImpl(
     this._pref,
     // this._auth
   );

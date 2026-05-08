@@ -6,16 +6,16 @@ import '../../../../core/constants/api_urls.dart';
 import '../../../../core/error/exception_mapper.dart';
 import '../../../../core/network/dio_client.dart';
 import '../model/app_state_model.dart';
-import 'splash_local_data_source.dart';
+import 'startup_local_data_source.dart';
 
-abstract class SplashRemoteDataSource {
+abstract class StartupRemoteDataSource {
   Future<bool> checkInternetConnection();
   Future<AppStateModel> getAppState();
 }
 
-class SplashRemoteDataSourceImpl implements SplashRemoteDataSource{
+class StartupRemoteDataSourceImpl implements StartupRemoteDataSource{
   final DioClient _dioClient;
-  SplashRemoteDataSourceImpl(this._dioClient);
+  StartupRemoteDataSourceImpl(this._dioClient);
 
   @override
   Future<bool> checkInternetConnection() async{

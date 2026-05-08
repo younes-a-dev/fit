@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
-import '../cubit/splash_cubit.dart';
+import '../cubit/startup_cubit.dart';
 import '../widgets/intro_page.dart';
 
 class IntroSlider extends StatefulWidget {
