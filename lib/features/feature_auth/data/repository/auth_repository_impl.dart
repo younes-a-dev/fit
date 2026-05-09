@@ -6,11 +6,16 @@ import 'package:workout/features/feature_auth/data/data_source/auth_api_provider
 import '../../../../common/params/change_pass_params.dart';
 import '../../../../common/params/sign_in_params.dart';
 import '../../../../common/params/sign_up_params.dart';
+import '../../../../core/error/failures.dart';
 import '../../../../locator.dart';
-import '../../domin/repository/auth_repository.dart';
-import '../data_source/auth_local_service.dart';
+import '../../domain/repository/auth_repository.dart';
+import '../data_source/auth_local_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
+  final AuthLocalDataSource _authLocalService;
+
+  AuthRepositoryImpl(this._authLocalService);
+
   @override
   Future<Either> signUp(SignUpParams params) async {
     Either result = await sl<AuthApiProvider>().signUp(params);
@@ -28,8 +33,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<bool> isLoggedIn() async {
-    return await sl<AuthLocalService>().isLoggedIn();
+  Future<Either<Failure, bool>> isLoggedIn() async {
+    try {
+      final result = await _authLocalService.isLoggedIn();
+      return Right(result);
+    } catch (e) {
+      return Left(LocalFailure(e.toString()));
+    }
   }
 
   // get code for register
@@ -62,7 +72,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future logout() async {
-    return await sl<AuthLocalService>().logout();
+    return await sl<AuthLocalDataSource>().logout();
   }
 
   // get code for change password

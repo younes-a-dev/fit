@@ -1,13 +1,15 @@
 part of 'auth_cubit.dart';
 
 class AuthState {
-  AuthStatus? authStatus;
+  final AuthStatus authStatus;
 
-  AuthState({required this.authStatus,});
+  AuthState({
+    required this.authStatus,
+  });
 
-  AuthState copyWith(
-      {AuthStatus? newAuthStatus}) {
+  AuthState copyWith({AuthStatus? newAuthStatus}) {
     return AuthState(
-        authStatus: newAuthStatus ?? authStatus,);
+      authStatus: newAuthStatus ?? authStatus,
+    );
   }
 }

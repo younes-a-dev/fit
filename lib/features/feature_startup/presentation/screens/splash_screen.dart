@@ -5,6 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../../bottom_navigator.dart';
 import '../../../../res/colors.dart';
+import '../../../feature_auth/presentation/bloc/cubit/auth_cubit.dart';
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
 import '../../../language/presentation/screens/language_selection_page.dart';
 import '../../domain/entity/app_state_entity.dart';
@@ -12,7 +13,6 @@ import '../cubit/startup_cubit.dart';
 import '../cubit/status/check_app_state_status.dart';
 import '../cubit/status/check_first_time_status.dart';
 import '../cubit/status/check_internet_status.dart';
-import '../cubit/status/check_logged_in_status.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,111 +26,120 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SplashCubit, SplashState>(
-      listener: (context, state) {
-        // Handle Update Dialog
-        if (state.checkAppStateStatus is CheckAppStateUpdate && !_isDialogShowing) {
-          _isDialogShowing = true;
-          final updateState = state.checkAppStateStatus as CheckAppStateUpdate;
-          _showUpdateDialog(
-            context,
-            updateState.appStatus,
-            updateState.isUpdateForce,
-          ).then((_) {
-            _isDialogShowing = false;
-          });
-          return;
-        }
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<StartupCubit, SplashState>(
+          listener: (context, state) {
+            // Handle Update Dialog
+            if (state.checkAppStateStatus is CheckAppStateUpdate &&
+                !_isDialogShowing) {
+              _isDialogShowing = true;
+              final updateState =
+                  state.checkAppStateStatus as CheckAppStateUpdate;
+              _showUpdateDialog(
+                context,
+                updateState.appStatus,
+                updateState.isUpdateForce,
+              ).then((_) {
+                _isDialogShowing = false;
+              });
+              return;
+            }
 
-        // Handle Server Unavailable Dialog
-        if (state.checkAppStateStatus is CheckAppStateAvailability && !_isDialogShowing) {
-          _isDialogShowing = true;
-          final errorState = state.checkAppStateStatus as CheckAppStateAvailability;
-          _showServerUnavailableDialog(context, errorState.message).then((_) {
-            _isDialogShowing = false;
-          });
-          return;
-        }
+            // Handle Server Unavailable Dialog
+            if (state.checkAppStateStatus is CheckAppStateAvailability &&
+                !_isDialogShowing) {
+              _isDialogShowing = true;
+              final errorState =
+                  state.checkAppStateStatus as CheckAppStateAvailability;
+              _showServerUnavailableDialog(context, errorState.message)
+                  .then((_) {
+                _isDialogShowing = false;
+              });
+              return;
+            }
 
-        // check first time
-        if (state.checkFirstTimeStatus is CheckFirstTimeCompleted) {
-          final isFirstTime =
-              (state.checkFirstTimeStatus as CheckFirstTimeCompleted)
-                  .isFirstTime;
-          if (isFirstTime) {
-            Navigator.pushNamed(context, LanguageSelectionPage.routeName);
-          } else {
-            context.read<SplashCubit>().checkLoggedIn();
-          }
-        }
+            // check first time
+            if (state.checkFirstTimeStatus is CheckFirstTimeCompleted) {
+              final isFirstTime =
+                  (state.checkFirstTimeStatus as CheckFirstTimeCompleted)
+                      .isFirstTime;
+              if (isFirstTime) {
+                Navigator.pushNamed(context, LanguageSelectionPage.routeName);
+              } else {
+                context.read<AuthCubit>().checkLoggedIn();
+              }
+            }
 
-        // Check Logged in
-        if (state.checkLoggedInStatus is CheckLoggedInCompleted) {
-          final isLoggedIn =
-              (state.checkLoggedInStatus as CheckLoggedInCompleted).isLoggedIn;
-          if (isLoggedIn) {
-            Navigator.pushNamed(context, BottomNavigator.routeName);
-          } else {
-            Navigator.pushNamed(context, AuthScreen.routeName);
-          }
-        }
-
-        // Handle Errors
-        if (state.checkInternetStatus is CheckInternetError) {
-          _showErrorDialog(context,
-              'No Internet Connection. Please check your connection and try again.');
-        }
-
-        if (state.checkAppStateStatus is CheckAppStateError) {
-          _showErrorDialog(
-              context, (state.checkAppStateStatus as CheckAppStateError).errorMessage);
-        }
-
-        if (state.checkFirstTimeStatus is CheckFirstTimeError) {
-          _showErrorDialog(context,
-              (state.checkFirstTimeStatus as CheckFirstTimeError).errorMessage);
-        }
-
-        if (state.checkLoggedInStatus is CheckLoggedInError) {
-          _showErrorDialog(context,
-              (state.checkLoggedInStatus as CheckLoggedInError).errorMessage);
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                    child: DelayedWidget(
-                      delayDuration: const Duration(milliseconds: 200),
-                      animationDuration: const Duration(milliseconds: 1000),
-                      animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
-                      child: Image.asset(
-                        'assets/images/HexFit Logo.png',
-                        color: MyColors.mainColor,
-                      ),
-                    )),
-                const SizedBox(height: 20),
-                _buildStatusText(state),
-                const SizedBox(height: 20),
-                if (state.checkInternetStatus is CheckInternetLoading ||
-                    state.checkAppStateStatus is CheckAppStateLoading ||
-                    state.checkFirstTimeStatus is CheckFirstTimeLoading ||
-                    state.checkLoggedInStatus is CheckLoggedInLoading)
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: LoadingAnimationWidget.progressiveDots(
+            // Handle Errors
+            if (state.checkInternetStatus is CheckInternetError) {
+              _showErrorDialog(context,
+                  'No Internet Connection. Please check your connection and try again.');
+            }
+            if (state.checkAppStateStatus is CheckAppStateError) {
+              _showErrorDialog(
+                  context,
+                  (state.checkAppStateStatus as CheckAppStateError)
+                      .errorMessage);
+            }
+            if (state.checkFirstTimeStatus is CheckFirstTimeError) {
+              _showErrorDialog(
+                  context,
+                  (state.checkFirstTimeStatus as CheckFirstTimeError)
+                      .errorMessage);
+            }
+          },
+        ),
+        // check Logged in - user authenticated or not
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state.authStatus is AuthAuthenticated) {
+              Navigator.pushNamed(context, BottomNavigator.routeName);
+            } else if (state.authStatus is AuthUnauthenticated) {
+              Navigator.pushNamed(context, AuthScreen.routeName);
+            } else if (state.authStatus is AuthError) {
+              final message = (state.authStatus as AuthError).message;
+              _showErrorDialog(context, message);
+            }
+          },
+        )
+      ],
+      child: BlocBuilder<StartupCubit, SplashState>(
+        builder: (context, state) {
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      child: DelayedWidget(
+                    delayDuration: const Duration(milliseconds: 200),
+                    animationDuration: const Duration(milliseconds: 1000),
+                    animation: DelayedAnimations.SLIDE_FROM_BOTTOM,
+                    child: Image.asset(
+                      'assets/images/HexFit Logo.png',
                       color: MyColors.mainColor,
-                      size: 24,
                     ),
-                  )
-              ],
+                  )),
+                  const SizedBox(height: 20),
+                  _buildStatusText(state),
+                  const SizedBox(height: 20),
+                  if (state.checkInternetStatus is CheckInternetLoading ||
+                      state.checkAppStateStatus is CheckAppStateLoading ||
+                      state.checkFirstTimeStatus is CheckFirstTimeLoading)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: LoadingAnimationWidget.progressiveDots(
+                        color: MyColors.mainColor,
+                        size: 24,
+                      ),
+                    )
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -145,14 +154,11 @@ Widget _buildStatusText(SplashState state) {
   if (state.checkFirstTimeStatus is CheckFirstTimeLoading) {
     return const Text('Checking user status...');
   }
-  if (state.checkLoggedInStatus is CheckLoggedInLoading) {
-    return const Text('Checking login status...');
-  }
   return const SizedBox.shrink();
 }
 
 Future<void> _showUpdateDialog(
-    BuildContext context, AppStateEntity appStatus, bool isForceUpdate)async {
+    BuildContext context, AppStateEntity appStatus, bool isForceUpdate) async {
   await showDialog(
     context: context,
     barrierDismissible: !isForceUpdate,
@@ -183,7 +189,7 @@ Future<void> _showUpdateDialog(
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              context.read<SplashCubit>().continueWithoutUpdate();
+              context.read<StartupCubit>().continueWithoutUpdate();
             },
             child: const Text('Later'),
           ),
@@ -201,7 +207,8 @@ Future<void> _showUpdateDialog(
   );
 }
 
-Future<void> _showServerUnavailableDialog(BuildContext context, String message)async {
+Future<void> _showServerUnavailableDialog(
+    BuildContext context, String message) async {
   await showDialog(
     context: context,
     barrierDismissible: false,
@@ -234,8 +241,8 @@ Future<void> _showServerUnavailableDialog(BuildContext context, String message)a
           onPressed: () {
             Navigator.pop(context);
             // Retry
-            context.read<SplashCubit>().resetStatus();
-            context.read<SplashCubit>().startSplash();
+            context.read<StartupCubit>().resetStatus();
+            context.read<StartupCubit>().startSplash();
           },
           child: const Text('Retry'),
         ),
@@ -276,8 +283,8 @@ void _showErrorDialog(BuildContext context, String message) {
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-            context.read<SplashCubit>().resetStatus();
-            context.read<SplashCubit>().startSplash();
+            context.read<StartupCubit>().resetStatus();
+            context.read<StartupCubit>().startSplash();
           },
           child: const Text('Retry'),
         ),

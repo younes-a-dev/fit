@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import '../../common/cubit/button_cubit.dart';
 import '../../common/cubit/button_state.dart';
-import '../../features/feature_auth/domin/usecase/logout_usecase.dart';
+import '../../features/feature_auth/domain/usecase/logout_usecase.dart';
 import '../../features/feature_auth/presentation/screens/auth_screen.dart';
 import '../../locator.dart';
 import '../../screen/about_us_screen.dart';

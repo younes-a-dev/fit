@@ -10,7 +10,7 @@ import '../../../../locator.dart';
 import '../../../../res/colors.dart';
 import '../../../../widgets/custom_textfield_widget.dart';
 
-import '../../domin/usecase/change_pass_usecase.dart';
+import '../../domain/usecase/change_pass_usecase.dart';
 import '../widgets/initial_button.dart';
 import '../widgets/loading_button.dart';
 import 'auth_screen.dart';

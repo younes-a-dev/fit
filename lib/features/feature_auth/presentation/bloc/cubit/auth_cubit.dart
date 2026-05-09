@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common/params/sign_up_params.dart';
-import '../../../../../locator.dart';
-import '../../../domin/usecase/is_logged_in_usecase.dart';
-import '../../../domin/usecase/sign_up_usecase.dart';
+import '../../../domain/usecase/auth_usecases.dart';
 
 part 'auth_status.dart';
+
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit()
-      : super(AuthState(
-            authStatus: AppInitialState(),));
+  final CheckLoggedInUseCase _checkLoggedInUseCase;
 
-  void checkAppStateEvent() async {
-    emit(state.copyWith(newAuthStatus: AppInitialState()));
+  AuthCubit(this._checkLoggedInUseCase)
+      : super(AuthState(authStatus: AuthInitial()));
 
-    var isLoggedIn = await sl<IsLoggedInUsecase>().call();
-    if (isLoggedIn) {
-      emit(state.copyWith(newAuthStatus: AuthenticatedState()));
-    } else {
-      emit(state.copyWith(newAuthStatus: UnAuthenticatedState()));
-    }
+  void checkLoggedIn() async {
+    emit(state.copyWith(newAuthStatus: AuthLoading()));
+
+    var result = await _checkLoggedInUseCase();
+    result.fold((failure) {
+      emit(state.copyWith(newAuthStatus: AuthError(failure.message)));
+    }, (isLoggedIn) {
+      isLoggedIn
+          ? emit(state.copyWith(newAuthStatus: AuthAuthenticated()))
+          : emit(state.copyWith(newAuthStatus: AuthUnauthenticated()));
+    });
   }
 }

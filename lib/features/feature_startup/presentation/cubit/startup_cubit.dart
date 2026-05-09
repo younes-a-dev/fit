@@ -3,31 +3,27 @@ import '../../domain/usecase/startup_usecases.dart';
 import 'status/check_app_state_status.dart';
 import 'status/check_first_time_status.dart';
 import 'status/check_internet_status.dart';
-import 'status/check_logged_in_status.dart';
 import 'status/set_first_time_status.dart';
 
 part 'startup_state.dart';
 
-class SplashCubit extends Cubit<SplashState> {
+class StartupCubit extends Cubit<SplashState> {
   final CheckInternetUseCase _checkInternetUseCase;
   final CheckAppStateUseCase _checkAppStatusUseCase;
   final CheckFirstTimeUseCase _checkFirstTimeUseCase;
-  final CheckLoggedInUseCase _checkLoggedInUseCase;
   final SetFirstTimeUseCase _setFirstTimeUseCase;
 
   bool _skipUpdateCheck = false;
 
-  SplashCubit(
+  StartupCubit(
       this._checkInternetUseCase,
       this._checkAppStatusUseCase,
       this._checkFirstTimeUseCase,
-      this._checkLoggedInUseCase,
       this._setFirstTimeUseCase)
       : super(SplashState(
           checkInternetStatus: CheckInternetInitial(),
           checkAppStateStatus: CheckAppStateInitial(),
           checkFirstTimeStatus: CheckFirstTimeInitial(),
-          checkLoggedInStatus: CheckLoggedInInitial(),
           setFirstTimeStatus: SetFirstTimeInitial(),
         ));
 
@@ -38,7 +34,6 @@ class SplashCubit extends Cubit<SplashState> {
     if (state.checkInternetStatus is CheckInternetError) {
       return;
     }
-
     // Step 2: Check App state (skip if user chose "Later")
     if (!_skipUpdateCheck) {
       await _checkAppStateFromRemote();
@@ -53,7 +48,6 @@ class SplashCubit extends Cubit<SplashState> {
         return; // Stop here, show error dialog
       }
     }
-
     // Step 3: Check First Time
     await _checkFirstTime();
     // Step 4: Check Logged In will be done after navigation decision
@@ -140,20 +134,6 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  // Check Logged In
-  Future<void> checkLoggedIn() async {
-    emit(state.copyWith(newCheckLoggedInStatus: CheckLoggedInLoading()));
-    final result = await _checkLoggedInUseCase();
-    result.fold(
-      (failure) => emit(state.copyWith(
-        newCheckLoggedInStatus: CheckLoggedInError(failure.message),
-      )),
-      (isLoggedIn) => emit(state.copyWith(
-        newCheckLoggedInStatus: CheckLoggedInCompleted(isLoggedIn),
-      )),
-    );
-  }
-
   // reset status
   void resetStatus() {
     _skipUpdateCheck = false; //  Reset the flag on retry
@@ -161,7 +141,6 @@ class SplashCubit extends Cubit<SplashState> {
       checkInternetStatus: CheckInternetInitial(),
       checkAppStateStatus: CheckAppStateInitial(),
       checkFirstTimeStatus: CheckFirstTimeInitial(),
-      checkLoggedInStatus: CheckLoggedInInitial(),
       setFirstTimeStatus: SetFirstTimeInitial(),
     ));
   }

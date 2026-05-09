@@ -6,7 +6,9 @@ import '../../../../core/constants/api_urls.dart';
 import '../../../../core/error/exception_mapper.dart';
 import '../../../../core/network/dio_client.dart';
 import '../model/app_state_model.dart';
-import 'startup_local_data_source.dart';
+
+const bool USE_MOCK = true;
+
 
 abstract class StartupRemoteDataSource {
   Future<bool> checkInternetConnection();
@@ -49,19 +51,3 @@ class StartupRemoteDataSourceImpl implements StartupRemoteDataSource{
     }
   }
 }
-
-
-// @override
-// Future<ProductModel> getProduct(String id) async {
-//   try {
-//     final response = await _dioClient.get(
-//       ApiUrls.getProduct,
-//       queryParameters: {'id': id},
-//       options: Options(contentType: 'application/json'),
-//     );
-//     ProductModel product = ProductModel.fromJson(response.data['data']);
-//     return product;
-//   } on DioException catch (e) {
-//     throw mapDioExceptionToException(e);
-//   }
-// }

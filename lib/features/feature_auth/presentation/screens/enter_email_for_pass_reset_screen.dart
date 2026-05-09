@@ -11,7 +11,7 @@ import '../../../../common/cubit/button_state.dart';
 import '../../../../locator.dart';
 import '../../../../res/colors.dart';
 import '../../../../widgets/custom_textfield_widget.dart';
-import '../../domin/usecase/pass_change_code_usecase.dart';
+import '../../domain/usecase/pass_change_code_usecase.dart';
 import 'code_verification_screen.dart';
 
 class EnterEmailForPassResetScreen extends StatefulWidget {

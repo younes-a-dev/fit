@@ -11,7 +11,7 @@ class StartupRepositoryImpl implements StartupRepository {
   final StartupRemoteDataSource _dataSource;
   final StartupLocalDataSource _localDataSource;
 
-  StartupRepositoryImpl(this._dataSource,this._localDataSource);
+  StartupRepositoryImpl(this._dataSource, this._localDataSource);
 
   @override
   Future<Either<Failure, bool>> checkInternet() async {
@@ -54,23 +54,12 @@ class StartupRepositoryImpl implements StartupRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> checkLoggedIn() async {
+  Future<Either<Failure, void>> setFirstTime() async {
     try {
-      final result = await _localDataSource.checkLoggedIn();
-      return Right(result);
+      await _localDataSource.setFirstTime();
+      return const Right(null);
     } catch (e) {
       return Left(LocalFailure(e.toString()));
     }
   }
-
-  @override
-  Future<Either<Failure,void>> setFirstTime() async{
-    try{
-      await _localDataSource.setFirstTime();
-      return const Right(null);
-    } catch (e){
-      return Left(LocalFailure(e.toString()));
-    }
-  }
 }
-

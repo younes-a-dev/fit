@@ -7,6 +7,5 @@ abstract class StartupRepository {
   Future<Either<Failure, bool>> checkInternet();
   Future<Either<Failure, AppStateEntity>> checkAppState();
   Future<Either<Failure, bool>> checkFirstTime();
-  Future<Either<Failure, bool>> checkLoggedIn();
   Future<Either<Failure,void>> setFirstTime();
 }

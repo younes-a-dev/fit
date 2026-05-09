@@ -102,8 +102,8 @@ class _IntroSliderState extends State<IntroSlider> {
                   TextButton(
                     child: Text('OK'),
                     onPressed: () async {
-                      context.read<SplashCubit>().resetStatus();
-                      await context.read<SplashCubit>().setFirstTime();
+                      context.read<StartupCubit>().resetStatus();
+                      await context.read<StartupCubit>().setFirstTime();
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         AuthScreen.routeName,

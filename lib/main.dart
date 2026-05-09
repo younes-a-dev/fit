@@ -90,13 +90,13 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<SplashCubit>()..startSplash(), // Auto-start
+          create: (context) => sl<StartupCubit>()..startSplash(), // Auto-start
         ),
         BlocProvider(
           create: (context) => sl<LanguageCubit>(),
         ),
         BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => sl<AuthCubit>(),
         ),
         // BlocProvider(
         //   create: (context) => ButtonCubit(),

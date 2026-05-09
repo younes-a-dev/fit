@@ -25,16 +25,6 @@ class CheckFirstTimeUseCase implements UseCase<Either<Failure,bool>,NoParams>{
   }
 }
 
-// check Logged In
-class CheckLoggedInUseCase implements UseCase<Either<Failure,bool>,NoParams>{
-  final StartupRepository _splashRepository;
-  CheckLoggedInUseCase(this._splashRepository);
-  @override
-  Future<Either<Failure, bool>> call({NoParams? param}) {
-    return _splashRepository.checkLoggedIn();
-  }
-}
-
 // Check Connection
 class CheckInternetUseCase implements UseCase<Either<Failure,bool>,NoParams>{
   final StartupRepository _splashRepository;
@@ -44,6 +34,7 @@ class CheckInternetUseCase implements UseCase<Either<Failure,bool>,NoParams>{
     return _splashRepository.checkInternet();
   }
 }
+
 // Set First Time to true
 class SetFirstTimeUseCase implements UseCase<Either<Failure,void>,NoParams>{
   final StartupRepository _splashRepository;

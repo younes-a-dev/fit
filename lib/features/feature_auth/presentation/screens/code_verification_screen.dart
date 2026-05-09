@@ -10,7 +10,7 @@ import '../../../../common/cubit/button_cubit.dart';
 import '../../../../common/cubit/button_state.dart';
 import '../../../../common/params/sign_up_params.dart';
 import '../../../../locator.dart';
-import '../../domin/usecase/sign_up_usecase.dart';
+import '../../domain/usecase/sign_up_usecase.dart';
 import '../widgets/loading_button.dart';
 import 'auth_screen.dart';
 import 'change_pass_screen.dart';
