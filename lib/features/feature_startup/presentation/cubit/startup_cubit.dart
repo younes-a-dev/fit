@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../domain/usecase/startup_usecases.dart';
 import 'status/check_app_state_status.dart';
@@ -15,11 +16,8 @@ class StartupCubit extends Cubit<SplashState> {
 
   bool _skipUpdateCheck = false;
 
-  StartupCubit(
-      this._checkInternetUseCase,
-      this._checkAppStatusUseCase,
-      this._checkFirstTimeUseCase,
-      this._setFirstTimeUseCase)
+  StartupCubit(this._checkInternetUseCase, this._checkAppStatusUseCase,
+      this._checkFirstTimeUseCase, this._setFirstTimeUseCase)
       : super(SplashState(
           checkInternetStatus: CheckInternetInitial(),
           checkAppStateStatus: CheckAppStateInitial(),
@@ -29,6 +27,13 @@ class StartupCubit extends Cubit<SplashState> {
 
   // Start Splash
   Future<void> startSplash() async {
+    final startTime = DateTime.now();
+    // perform checks...
+    final elapsed = DateTime.now().difference(startTime);
+    const minDuration = Duration(seconds: 2);
+    if (elapsed < minDuration) {
+      await Future.delayed(minDuration - elapsed);
+    }
     // Step 1: Check Internet
     await _checkInternet();
     if (state.checkInternetStatus is CheckInternetError) {
@@ -66,13 +71,15 @@ class StartupCubit extends Cubit<SplashState> {
 
     final result = await _checkInternetUseCase();
     result.fold(
-        (failure) => emit(state.copyWith(
-              newCheckInternetStatus:
-                  CheckInternetError('No internet connection'),
-            )),
-        (hasInternet) => emit(state.copyWith(
-              newCheckInternetStatus: CheckInternetCompleted(hasInternet),
-            )));
+      (failure) {
+        emit(state.copyWith(
+            newCheckInternetStatus: CheckInternetError(failure.message)));
+      },
+      (_) {
+        emit(state.copyWith(
+            newCheckInternetStatus: CheckInternetCompleted(true)));
+      },
+    );
   }
 
   // Check App State

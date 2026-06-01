@@ -9,20 +9,19 @@ import '../model/app_state_model.dart';
 
 const bool USE_MOCK = true;
 
-
 abstract class StartupRemoteDataSource {
   Future<bool> checkInternetConnection();
+
   Future<AppStateModel> getAppState();
 }
 
-class StartupRemoteDataSourceImpl implements StartupRemoteDataSource{
+class StartupRemoteDataSourceImpl implements StartupRemoteDataSource {
   final DioClient _dioClient;
+
   StartupRemoteDataSourceImpl(this._dioClient);
 
   @override
-  Future<bool> checkInternetConnection() async{
-    //TODO: delete this line
-    if (USE_MOCK) return true;
+  Future<bool> checkInternetConnection() async {
     try {
       final result = await InternetAddress.lookup('google.com');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
@@ -32,7 +31,7 @@ class StartupRemoteDataSourceImpl implements StartupRemoteDataSource{
   }
 
   @override
-  Future<AppStateModel> getAppState() async{
+  Future<AppStateModel> getAppState() async {
     //todo: must be deleted
     if (USE_MOCK) {
       return AppStateModel(
@@ -43,10 +42,10 @@ class StartupRemoteDataSourceImpl implements StartupRemoteDataSource{
         minVersion: '1.0.0',
       );
     }
-    try{
+    try {
       final response = await _dioClient.get(ApiUrls.appStatus);
       return AppStateModel.fromJson(response.data['data']);
-    } on DioException catch(e){
+    } on DioException catch (e) {
       throw mapDioExceptionToException(e);
     }
   }

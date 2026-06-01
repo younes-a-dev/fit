@@ -1,17 +1,16 @@
 part of 'startup_cubit.dart';
 
-class SplashState {
+class SplashState extends Equatable {
   final CheckInternetStatus checkInternetStatus;
   final CheckAppStateStatus checkAppStateStatus;
   final CheckFirstTimeStatus checkFirstTimeStatus;
   final SetFirstTimeStatus setFirstTimeStatus;
 
-  const SplashState({
-    required this.checkInternetStatus,
-    required this.checkAppStateStatus,
-    required this.checkFirstTimeStatus,
-    required this.setFirstTimeStatus
-  });
+  const SplashState(
+      {required this.checkInternetStatus,
+      required this.checkAppStateStatus,
+      required this.checkFirstTimeStatus,
+      required this.setFirstTimeStatus});
 
   SplashState copyWith({
     CheckInternetStatus? newCheckInternetStatus,
@@ -26,4 +25,12 @@ class SplashState {
       setFirstTimeStatus: newSetFirstTimeStatus ?? setFirstTimeStatus,
     );
   }
+
+  @override
+  List<Object?> get props => [
+        checkInternetStatus,
+        checkAppStateStatus,
+        checkFirstTimeStatus,
+        setFirstTimeStatus
+      ];
 }

@@ -16,16 +16,13 @@ class StartupRepositoryImpl implements StartupRepository {
   @override
   Future<Either<Failure, bool>> checkInternet() async {
     try {
-      final result = await _dataSource.checkInternetConnection();
-      return Right(result);
-    } on CustomException catch (e) {
-      if (e is NetworkException) {
-        return Left(NetworkFailure(e.message));
-      } else {
-        return Left(ServerFailure(e.message));
+      final hasInternet = await _dataSource.checkInternetConnection();
+      if(!hasInternet){
+        return Left(NetworkFailure('No Internet Connection'));
       }
+      return const Right(true);
     } catch (_) {
-      return Left(ServerFailure('Unexpected Error'));
+      return Left(NetworkFailure('No Internet Connection'));
     }
   }
 
