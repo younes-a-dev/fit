@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:workout/core/constants/enums.dart';
 import '../../screen/Article_detail_screen.dart';
 import '../../screen/about_us_screen.dart';
 import '../../screen/bmi_score_screen.dart';
@@ -35,6 +36,8 @@ import '../../screen/statistics_screen.dart';
 import '../../theme/custom_theme.dart';
 import '../../theme/config.dart';
 
+import 'core/constants/app_fonts.dart';
+import 'core/localization/l10n/app_localizations.dart';
 import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
 import 'features/feature_auth/presentation/screens/change_pass_screen.dart';
 import 'features/feature_auth/presentation/screens/code_verification_screen.dart';
@@ -93,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => sl<StartupCubit>()..startSplash(), // Auto-start
         ),
         BlocProvider(
-          create: (context) => sl<LanguageCubit>(),
+          create: (context) => sl<LanguageCubit>()..getLanguageEvent(),
         ),
         BlocProvider(
           create: (context) => sl<AuthCubit>(),
@@ -121,81 +124,98 @@ class _MyAppState extends State<MyApp> {
         //   create: (ctx) => User(),
         // ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Workout',
-        // theme: ThemeData(
-        //   appBarTheme: AppBarTheme(
-        //     elevation: 0,
-        //     backgroundColor: Colors.transparent,
-        //     brightness: Brightness.light,
-        //   ),
-        //   primarySwatch: Colors.blue,
-        //   fontFamily: 'Raleway',
-        // ),
-        theme: CustomTheme.lightTheme,
-        darkTheme: CustomTheme.darkTheme,
-        themeMode: currentTheme.currentTheme,
-        home: SplashScreen(),
-        // CaloriesBurnedScreen(),
-        //const AuthScreen(),
-        // IntroSlider(),
-        //  OnBoardingScreen(),
-        initialRoute: '/',
-        routes: {
-          AuthScreen.routeName: (ctx) => const AuthScreen(),
-          LanguageSelectionPage.routeName : (ctx) => LanguageSelectionPage(),
-          CodeVerificationScreen.routeName: (ctx) => CodeVerificationScreen(),
-          ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
-          AddExerciseScreen.routeName: (ctx) => const AddExerciseScreen(),
-          EnterEmailForPassResetScreen.routeName: (ctx) =>
-              const EnterEmailForPassResetScreen(),
-          BottomNavigator.routeName: (ctx) => BottomNavigator(),
-          IntroSlider.routeName: (ctx) => IntroSlider(),
-          AlertScreen.routeName: (ctx) => AlertScreen(),
-          DiscoverSelectedPlanDetailScreen.routeName: (ctx) =>
-              DiscoverSelectedPlanDetailScreen(),
-          EditProfileScreen.routName: (ctx) => const EditProfileScreen(),
-          SettingsScreen.routeName: (ctx) => const SettingsScreen(),
-          ManageSubscriptionScreen.routeName: (ctx) =>
-              ManageSubscriptionScreen(),
-          AboutUsScreen.routeName: (ctx) => const AboutUsScreen(),
-          FavoritePlansScreen.routeName: (ctx) => const FavoritePlansScreen(),
-          MeasuresScreen.routeName: (ctx) => const MeasuresScreen(),
-          CalculatorsScreen.routeName: (ctx) => const CalculatorsScreen(),
-          StatisticsScreen.routeName: (ctx) => const StatisticsScreen(),
-          CarePlansScreen.routeName: (ctx) => const CarePlansScreen(),
-          // settings screens route
-          WorkoutSettingScreen.routeName: (ctx) => const WorkoutSettingScreen(),
-          UnitsSettingScreen.routeName: (ctx) => const UnitsSettingScreen(),
-          GuideSettingScreen.routeName: (ctx) => const GuideSettingScreen(),
-          ThemeSettingScreen.routeName: (ctx) => const ThemeSettingScreen(),
-          GoogleFitSettingScreen.routeName: (ctx) =>
-              const GoogleFitSettingScreen(),
-          SelectFirstWeekDayScreen.routeName: (ctx) =>
-              const SelectFirstWeekDayScreen(),
-          // Calculators screen route
-          BodyMassIndexScreen.routeName: (ctx) => const BodyMassIndexScreen(),
-          BodyFatPercentageScreen.routeName: (ctx) =>
-              const BodyFatPercentageScreen(),
-          CaloriesBurnedScreen.routeName: (ctx) => CaloriesBurnedScreen(),
-          DailyCalorieCalculatorScreen.routeName: (ctx) =>
-              DailyCalorieCalculatorScreen(),
-          BmiScoreScreen.routeName: (ctx) => const BmiScoreScreen(),
-          SelectedCustomPlanScreen.routeName: (ctx) =>
-              const SelectedCustomPlanScreen(),
-          EditCustomPlanScreen.routeName: (ctx) => const EditCustomPlanScreen(),
-          ArticleDetailScreen.routeName: (ctx) => const ArticleDetailScreen(),
-          LogMeasurementScreen.routeName: (ctx) => LogMeasurementScreen(),
-          // SetWeeklyGoalScreen.routeName: (ctx) => SetWeeklyGoalScreen(),
-          PlanOverviewScreen.routeName: (ctx) => const PlanOverviewScreen(),
-          OnBoardingScreen.routeName: (ctx) => const OnBoardingScreen(),
-          SelectedHexFitPlanScreen.routeName: (ctx) =>
-              const SelectedHexFitPlanScreen(),
-          CreatePlanScreen.routeName: (ctx) => const CreatePlanScreen(),
-          ChangePasswordScreen.routeName: (ctx) => const ChangePasswordScreen(),
-          InitUserInfo.routeName: (ctx) => const InitUserInfo(),
-        },
+      child: BlocBuilder<LanguageCubit,LanguageState>(
+        builder: (context,languageState) {
+          final isPersian =
+              languageState.currentLanguage == Language.persian;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'HexFit',
+            locale: Locale(languageState.currentLanguage.code),
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            // theme: ThemeData(
+            //   appBarTheme: AppBarTheme(
+            //     elevation: 0,
+            //     backgroundColor: Colors.transparent,
+            //     brightness: Brightness.light,
+            //   ),
+            //   primarySwatch: Colors.blue,
+            //   fontFamily: 'Raleway',
+            // ),
+            theme: CustomTheme.lightTheme.copyWith(
+              textTheme: CustomTheme.lightTheme.textTheme.apply(
+                fontFamily:  isPersian ? AppFonts.vazir : AppFonts.raleway,
+              ),
+            ),
+            darkTheme: CustomTheme.darkTheme.copyWith(
+              textTheme: CustomTheme.darkTheme.textTheme.apply(
+                fontFamily: isPersian ? AppFonts.vazir : AppFonts.raleway,
+              ),
+            ),
+            themeMode: currentTheme.currentTheme,
+            home: SplashScreen(),
+            // CaloriesBurnedScreen(),
+            //const AuthScreen(),
+            // IntroSlider(),
+            //  OnBoardingScreen(),
+            initialRoute: '/',
+            routes: {
+              AuthScreen.routeName: (ctx) => const AuthScreen(),
+              LanguageSelectionPage.routeName : (ctx) => LanguageSelectionPage(),
+              CodeVerificationScreen.routeName: (ctx) => CodeVerificationScreen(),
+              ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
+              AddExerciseScreen.routeName: (ctx) => const AddExerciseScreen(),
+              EnterEmailForPassResetScreen.routeName: (ctx) =>
+                  const EnterEmailForPassResetScreen(),
+              BottomNavigator.routeName: (ctx) => BottomNavigator(),
+              IntroSlider.routeName: (ctx) => IntroSlider(),
+              AlertScreen.routeName: (ctx) => AlertScreen(),
+              DiscoverSelectedPlanDetailScreen.routeName: (ctx) =>
+                  DiscoverSelectedPlanDetailScreen(),
+              EditProfileScreen.routName: (ctx) => const EditProfileScreen(),
+              SettingsScreen.routeName: (ctx) => const SettingsScreen(),
+              ManageSubscriptionScreen.routeName: (ctx) =>
+                  ManageSubscriptionScreen(),
+              AboutUsScreen.routeName: (ctx) => const AboutUsScreen(),
+              FavoritePlansScreen.routeName: (ctx) => const FavoritePlansScreen(),
+              MeasuresScreen.routeName: (ctx) => const MeasuresScreen(),
+              CalculatorsScreen.routeName: (ctx) => const CalculatorsScreen(),
+              StatisticsScreen.routeName: (ctx) => const StatisticsScreen(),
+              CarePlansScreen.routeName: (ctx) => const CarePlansScreen(),
+              // settings screens route
+              WorkoutSettingScreen.routeName: (ctx) => const WorkoutSettingScreen(),
+              UnitsSettingScreen.routeName: (ctx) => const UnitsSettingScreen(),
+              GuideSettingScreen.routeName: (ctx) => const GuideSettingScreen(),
+              ThemeSettingScreen.routeName: (ctx) => const ThemeSettingScreen(),
+              GoogleFitSettingScreen.routeName: (ctx) =>
+                  const GoogleFitSettingScreen(),
+              SelectFirstWeekDayScreen.routeName: (ctx) =>
+                  const SelectFirstWeekDayScreen(),
+              // Calculators screen route
+              BodyMassIndexScreen.routeName: (ctx) => const BodyMassIndexScreen(),
+              BodyFatPercentageScreen.routeName: (ctx) =>
+                  const BodyFatPercentageScreen(),
+              CaloriesBurnedScreen.routeName: (ctx) => CaloriesBurnedScreen(),
+              DailyCalorieCalculatorScreen.routeName: (ctx) =>
+                  DailyCalorieCalculatorScreen(),
+              BmiScoreScreen.routeName: (ctx) => const BmiScoreScreen(),
+              SelectedCustomPlanScreen.routeName: (ctx) =>
+                  const SelectedCustomPlanScreen(),
+              EditCustomPlanScreen.routeName: (ctx) => const EditCustomPlanScreen(),
+              ArticleDetailScreen.routeName: (ctx) => const ArticleDetailScreen(),
+              LogMeasurementScreen.routeName: (ctx) => LogMeasurementScreen(),
+              // SetWeeklyGoalScreen.routeName: (ctx) => SetWeeklyGoalScreen(),
+              PlanOverviewScreen.routeName: (ctx) => const PlanOverviewScreen(),
+              OnBoardingScreen.routeName: (ctx) => const OnBoardingScreen(),
+              SelectedHexFitPlanScreen.routeName: (ctx) =>
+                  const SelectedHexFitPlanScreen(),
+              CreatePlanScreen.routeName: (ctx) => const CreatePlanScreen(),
+              ChangePasswordScreen.routeName: (ctx) => const ChangePasswordScreen(),
+              InitUserInfo.routeName: (ctx) => const InitUserInfo(),
+            },
+          );
+        }
       ),
     );
   }

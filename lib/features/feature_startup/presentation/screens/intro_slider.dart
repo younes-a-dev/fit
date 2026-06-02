@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../core/localization/l10n/app_localizations.dart';
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
 import '../cubit/startup_cubit.dart';
 import '../widgets/intro_page.dart';
@@ -37,6 +38,7 @@ class _IntroSliderState extends State<IntroSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -71,7 +73,7 @@ class _IntroSliderState extends State<IntroSlider> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  child: Text('Back'),
+                  child: Text(l10n.back,style: TextStyle(color: Colors.black),),
                   onPressed: () {
                     if (_pageController.page!.round() > 0) {
                       _pageController.animateToPage(
@@ -100,7 +102,7 @@ class _IntroSliderState extends State<IntroSlider> {
                 // Ok/Next Button
                 if (_isLastIndex)
                   TextButton(
-                    child: Text('OK'),
+                    child: Text(l10n.ok,style: TextStyle(color: Colors.amber),),
                     onPressed: () async {
                       context.read<StartupCubit>().resetStatus();
                       await context.read<StartupCubit>().setFirstTime();
@@ -115,9 +117,7 @@ class _IntroSliderState extends State<IntroSlider> {
                   )
                 else
                   TextButton(
-                    child: Text(
-                      'Next',
-                    ),
+                    child: Text(l10n.next,style: TextStyle(color: Colors.black),),
                     onPressed: () {
                       _pageController.animateToPage(
                         _pageController.page!.round() + 1,

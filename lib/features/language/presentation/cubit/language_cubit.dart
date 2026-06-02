@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:workout/core/constants/enums.dart';
 
+import '../../../../core/constants/enums.dart';
 import '../../domain/entity/language_entity.dart';
 import '../../domain/usecase/language_usecases.dart';
 
@@ -15,6 +16,7 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   LanguageCubit(this._getSavedLanguageUseCase, this._saveLanguageUseCase)
       : super(LanguageState(
+            currentLanguage: Language.english,
             getLanguageStatus: GetLanguageInitial(),
             saveLanguageStatus: SaveLanguageInitial()));
 
@@ -24,11 +26,12 @@ class LanguageCubit extends Cubit<LanguageState> {
     final result = await _getSavedLanguageUseCase();
 
     result.fold(
-          (failure) => emit(state.copyWith(
+      (failure) => emit(state.copyWith(
         newGetLanguageStatus: GetLanguageError(failure.message),
       )),
-          (language) => emit(state.copyWith(
-        newGetLanguageStatus: GetLanguageCompleted(language),
+      (languageEntity) => emit(state.copyWith(
+        currentLanguage: languageEntity.language,
+        newGetLanguageStatus: GetLanguageCompleted(),
       )),
     );
   }
@@ -39,19 +42,20 @@ class LanguageCubit extends Cubit<LanguageState> {
     final result = await _saveLanguageUseCase(LanguageEntity(language: language));
 
     result.fold(
-          (failure) => emit(state.copyWith(
-        newSaveLanguageStatus: SaveLanguageError(failure.message),
-      )),
-          (_) => emit(state.copyWith(
+      (failure) => emit(state.copyWith(
+          newSaveLanguageStatus: SaveLanguageError(failure.message))),
+      (_) => emit(state.copyWith(
+        currentLanguage: language,
         newSaveLanguageStatus: SaveLanguageCompleted(),
       )),
     );
   }
 
-  void resetLanguageStatus(){
-    emit(LanguageState(
-      saveLanguageStatus: SaveLanguageInitial(),
-      getLanguageStatus: GetLanguageInitial(),
-    ));
-  }
+  // void resetLanguageStatus() {
+  //   emit(LanguageState(
+  //
+  //     saveLanguageStatus: SaveLanguageInitial(),
+  //     getLanguageStatus: GetLanguageInitial(),
+  //   ));
+  // }
 }

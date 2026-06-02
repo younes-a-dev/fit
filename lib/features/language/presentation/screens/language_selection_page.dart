@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
+import 'package:workout/core/constants/app_fonts.dart';
 
 import '../../../../core/constants/enums.dart';
 import '../../../../res/colors.dart';
@@ -23,101 +23,117 @@ class LanguageSelectionPage extends StatelessWidget {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Gap(size.height / 9.5),
-
-              // Logo
-              SizedBox(
-                height: size.height * .2,
-                width: size.width * .7,
-                child: Image.asset(
-                  'assets/images/HexFit Logo.png',
-                  color: MyColors.mainColor,
-                ),
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 500,
               ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: size.height * .08),
 
-              const Gap(30),
-
-              // Title
-              RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway',
-                  ),
-                  children: const [
-                    TextSpan(text: 'CHOOSE'),
-                    TextSpan(
-                      text: ' LANGUAGE',
-                      style: TextStyle(
+                    SizedBox(
+                      height: size.height * .18,
+                      child: Image.asset(
+                        'assets/images/HexFit Logo.png',
                         color: MyColors.mainColor,
-                        fontFamily: 'Raleway',
                       ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'CHOOSE',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: ' LANGUAGE',
+                            style: TextStyle(
+                              color: MyColors.mainColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: size.width < 360 ? 28 : 36,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: AppFonts.raleway,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    Text(
+                      'انتخاب زبان',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontFamily: AppFonts.vazir,
+                        color: Theme.of(context).canvasColor,
+                      ),
+                    ),
+
+                    const SizedBox(height: 50),
+
+                    BlocBuilder<LanguageCubit, LanguageState>(
+                      builder: (context, state) {
+                        final isLoading =
+                        state.saveLanguageStatus
+                        is SaveLanguageLoading;
+
+                        return Column(
+                          children: [
+                            _LanguageButton(
+                              title: 'English',
+                              languageCode: 'EN',
+                              isSelected:
+                              state.currentLanguage ==
+                                  Language.english,
+                              isLoading: isLoading,
+                              onTap: () {
+                                context
+                                    .read<LanguageCubit>()
+                                    .saveLanguageEvent(
+                                  Language.english,
+                                );
+                              },
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            _LanguageButton(
+                              title: 'فارسی',
+                              languageCode: 'FA',
+                              isSelected:
+                              state.currentLanguage ==
+                                  Language.persian,
+                              isLoading: isLoading,
+                              onTap: () {
+                                context
+                                    .read<LanguageCubit>()
+                                    .saveLanguageEvent(
+                                  Language.persian,
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
-
-              const Gap(10),
-
-              // Subtitle
-              Text(
-                'انتخاب زبان',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Theme.of(context).canvasColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-
-              const Gap(50),
-
-              // Language Buttons
-              BlocBuilder<LanguageCubit, LanguageState>(
-                builder: (context, state) {
-                  final isLoading = state.saveLanguageStatus is SaveLanguageLoading;
-                  final selectedLanguage = state.saveLanguageStatus;
-
-                  return Column(
-                    children: [
-                      // English Button
-                      _LanguageButton(
-                        title: 'English',
-                        languageCode: 'EN',
-                        isSelected: selectedLanguage == Language.english,
-                        isLoading: isLoading,
-                        onTap: () {
-                          context
-                              .read<LanguageCubit>()
-                              .saveLanguageEvent(Language.english);
-                        },
-                      ),
-
-                      const Gap(20),
-
-                      // Persian Button
-                      _LanguageButton(
-                        title: 'فارسی',
-                        languageCode: 'FA',
-                        isSelected: selectedLanguage == Language.persian,
-                        isLoading: isLoading,
-                        onTap: () {
-                          context
-                              .read<LanguageCubit>()
-                              .saveLanguageEvent(Language.persian);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -142,85 +158,80 @@ class _LanguageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return GestureDetector(
-      onTap: isLoading ? null : onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: size.width * 0.35,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        decoration: BoxDecoration(
-          color: isSelected ? MyColors.mainColor.withOpacity(0.05) : Colors.grey[50],
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? MyColors.mainColor : Colors.grey[300]!,
-            width: isSelected ? 2 : 1,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: isLoading ? null : onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          width: double.infinity,
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? MyColors.mainColor.withOpacity(.08)
+                : Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: isSelected
+                  ? MyColors.mainColor
+                  : Colors.grey.shade300,
+              width: isSelected ? 2 : 1,
+            ),
           ),
-          boxShadow: [
-            if (isSelected)
-              BoxShadow(
-                color: MyColors.mainColor.withOpacity(0.1),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
-          ],
-        ),
-        child: Row(
-          children: [
-            // Language Code Circle
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: isSelected ? MyColors.mainColor : Colors.grey[200],
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Center(
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? MyColors.mainColor
+                      : Colors.grey.shade200,
+                  shape: BoxShape.circle,
+                ),
                 child: Text(
                   languageCode,
                   style: TextStyle(
-                    fontSize: 16,
+                    color: isSelected
+                        ? Colors.white
+                        : MyColors.mainColor,
                     fontWeight: FontWeight.bold,
-                    color: isSelected ? Colors.white : MyColors.mainColor,
                   ),
                 ),
               ),
-            ),
 
-            const SizedBox(width: 15),
+              const SizedBox(width: 16),
 
-            // Language Name
-            Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: isSelected ? MyColors.mainColor : Colors.black87,
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: title == 'فارسی'
+                        ? AppFonts.vazir
+                        : AppFonts.raleway,
+                  ),
                 ),
               ),
-            ),
 
-            // Checkmark when selected
-            if (isSelected && !isLoading)
-              Icon(
-                Icons.check_circle,
-                color: MyColors.mainColor,
-                size: 28,
-              ),
-
-            // Loading indicator
-            if (isLoading)
-              const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(MyColors.mainColor),
+              if (isLoading)
+                const SizedBox(
+                  width: 22,
+                  height: 22,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                )
+              else if (isSelected)
+                const Icon(
+                  Icons.check_circle_rounded,
+                  color: MyColors.mainColor,
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

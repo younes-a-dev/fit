@@ -98,6 +98,30 @@ abstract class AppLocalizations {
     Locale('fa')
   ];
 
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'CHOOSE LANGUAGE'**
+  String get chooseLanguage;
+
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:

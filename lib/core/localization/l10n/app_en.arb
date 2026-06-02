@@ -1,4 +1,8 @@
 {
+  "next": "Next",
+  "back": "Back",
+  "ok": "OK",
+  "chooseLanguage" : "CHOOSE LANGUAGE",
   "appName": "Fitness App",
   "welcome": "Welcome",
   "signIn": "Sign In",

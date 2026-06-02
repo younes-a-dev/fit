@@ -9,6 +9,18 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get next => 'Next';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get chooseLanguage => 'CHOOSE LANGUAGE';
+
+  @override
   String get appName => 'Fitness App';
 
   @override

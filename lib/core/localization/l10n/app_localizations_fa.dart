@@ -9,6 +9,18 @@ class AppLocalizationsFa extends AppLocalizations {
   AppLocalizationsFa([String locale = 'fa']) : super(locale);
 
   @override
+  String get next => 'بعدی';
+
+  @override
+  String get back => 'قبلی';
+
+  @override
+  String get ok => 'تایید';
+
+  @override
+  String get chooseLanguage => 'انتخاب زبان';
+
+  @override
   String get appName => 'اپلیکیشن ورزشی';
 
   @override

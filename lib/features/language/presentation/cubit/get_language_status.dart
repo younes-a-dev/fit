@@ -1,14 +1,21 @@
 part of 'language_cubit.dart';
 
 @immutable
-abstract class GetLanguageStatus {}
-class GetLanguageInitial extends GetLanguageStatus{}
-class GetLanguageLoading extends GetLanguageStatus{}
-class GetLanguageCompleted extends GetLanguageStatus{
-  final LanguageEntity language;
-  GetLanguageCompleted(this.language);
+abstract class GetLanguageStatus extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
-class GetLanguageError extends GetLanguageStatus{
+
+class GetLanguageInitial extends GetLanguageStatus {}
+
+class GetLanguageLoading extends GetLanguageStatus {}
+
+class GetLanguageCompleted extends GetLanguageStatus {}
+
+class GetLanguageError extends GetLanguageStatus {
   final String message;
   GetLanguageError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
