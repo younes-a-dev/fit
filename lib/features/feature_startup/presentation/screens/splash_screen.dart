@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../../bottom_navigator.dart';
 import '../../../../res/colors.dart';
 import '../../../feature_auth/presentation/bloc/cubit/auth_cubit.dart';
+import '../../../feature_auth/presentation/bloc/cubit/status/auth_status.dart';
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
 import '../../../language/presentation/screens/language_selection_page.dart';
 import '../../domain/entity/app_state_entity.dart';
@@ -90,12 +91,16 @@ class _SplashScreenState extends State<SplashScreen> {
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state.authStatus is AuthAuthenticated) {
+              context.read<AuthCubit>().resetIsLoggedInStatus();
               Navigator.pushNamed(context, BottomNavigator.routeName);
             } else if (state.authStatus is AuthUnauthenticated) {
+              context.read<AuthCubit>().resetIsLoggedInStatus();
               Navigator.pushNamed(context, AuthScreen.routeName);
             } else if (state.authStatus is AuthError) {
               final message = (state.authStatus as AuthError).message;
-              _showErrorDialog(context, message);
+              _showErrorDialog(context, message).then((_){
+                context.read<AuthCubit>().resetIsLoggedInStatus();
+              });
             }
           },
         )
@@ -321,8 +326,8 @@ Future<void> _showServerUnavailableDialog(
 //   }
 // }
 
-void _showErrorDialog(BuildContext context, String message) {
-  showDialog(
+Future<void> _showErrorDialog(BuildContext context, String message) {
+  return showDialog(
     context: context,
     barrierDismissible: false,
     builder: (context) => AlertDialog(

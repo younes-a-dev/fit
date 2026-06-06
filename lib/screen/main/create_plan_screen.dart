@@ -6,7 +6,7 @@ import 'package:workout/model/session_model.dart';
 import '../../model/menu_item_model.dart';
 import '../../provider/plan.dart';
 import '../../res/colors.dart';
-import '../../widgets/custom_textfield_widget.dart';
+import '../../core/widgets/custom_textfield_widget.dart';
 import '../../widgets/menu_item.dart' as menu_item;
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 

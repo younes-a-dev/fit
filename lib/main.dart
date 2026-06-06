@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:workout/core/constants/enums.dart';
+
 import '../../screen/Article_detail_screen.dart';
 import '../../screen/about_us_screen.dart';
 import '../../screen/bmi_score_screen.dart';
@@ -37,17 +37,18 @@ import '../../theme/custom_theme.dart';
 import '../../theme/config.dart';
 
 import 'core/constants/app_fonts.dart';
+import 'core/constants/enums.dart';
 import 'core/localization/l10n/app_localizations.dart';
 import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
-import 'features/feature_auth/presentation/screens/change_pass_screen.dart';
-import 'features/feature_auth/presentation/screens/code_verification_screen.dart';
+import 'features/feature_auth/presentation/screens/reset_password_screen.dart';
+import 'features/feature_auth/presentation/screens/verify_code_screen.dart';
 import 'features/feature_startup/presentation/screens/splash_screen.dart';
 import 'features/feature_startup/presentation/cubit/startup_cubit.dart';
 import 'features/language/presentation/cubit/language_cubit.dart';
 import 'features/language/presentation/screens/language_selection_page.dart';
 import 'locator.dart';
 import 'screen/alert_screen.dart';
-import 'features/feature_auth/presentation/screens/enter_email_for_pass_reset_screen.dart';
+import 'features/feature_auth/presentation/screens/request_reset_code_screen.dart';
 import 'features/feature_startup/presentation/screens/intro_slider.dart';
 import 'features/feature_auth/presentation/screens/auth_screen.dart';
 import 'screen/discover_selected_plan_detail_screen.dart';
@@ -101,10 +102,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => sl<AuthCubit>(),
         ),
-        // BlocProvider(
-        //   create: (context) => ButtonCubit(),
-        // ),
-
         // ChangeNotifierProvider(
         //   create: (ctx) => Auth(),
         // ),
@@ -134,15 +131,6 @@ class _MyAppState extends State<MyApp> {
             locale: Locale(languageState.currentLanguage.code),
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            // theme: ThemeData(
-            //   appBarTheme: AppBarTheme(
-            //     elevation: 0,
-            //     backgroundColor: Colors.transparent,
-            //     brightness: Brightness.light,
-            //   ),
-            //   primarySwatch: Colors.blue,
-            //   fontFamily: 'Raleway',
-            // ),
             theme: CustomTheme.lightTheme.copyWith(
               textTheme: CustomTheme.lightTheme.textTheme.apply(
                 fontFamily:  isPersian ? AppFonts.vazir : AppFonts.raleway,
@@ -155,19 +143,15 @@ class _MyAppState extends State<MyApp> {
             ),
             themeMode: currentTheme.currentTheme,
             home: SplashScreen(),
-            // CaloriesBurnedScreen(),
-            //const AuthScreen(),
-            // IntroSlider(),
-            //  OnBoardingScreen(),
             initialRoute: '/',
             routes: {
               AuthScreen.routeName: (ctx) => const AuthScreen(),
               LanguageSelectionPage.routeName : (ctx) => LanguageSelectionPage(),
-              CodeVerificationScreen.routeName: (ctx) => CodeVerificationScreen(),
-              ChangePassScreen.routeName: (ctx) => ChangePassScreen(),
+              VerifyCodeScreen.routeName: (ctx) => VerifyCodeScreen(),
+              ResetPasswordScreen.routeName: (ctx) => ResetPasswordScreen(),
               AddExerciseScreen.routeName: (ctx) => const AddExerciseScreen(),
-              EnterEmailForPassResetScreen.routeName: (ctx) =>
-                  const EnterEmailForPassResetScreen(),
+              RequestResetCodeScreen.routeName: (ctx) =>
+                  const RequestResetCodeScreen(),
               BottomNavigator.routeName: (ctx) => BottomNavigator(),
               IntroSlider.routeName: (ctx) => IntroSlider(),
               AlertScreen.routeName: (ctx) => AlertScreen(),

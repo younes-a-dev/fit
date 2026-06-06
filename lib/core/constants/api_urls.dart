@@ -2,11 +2,12 @@ class ApiUrls {
   static const baseUrl = 'https://workout-fit.liara.run/';
   static const appStatus = '${baseUrl}app_status';
   static const register = '${baseUrl}sign_up';
-  // get code for registe
-  static const sendEmail = '${baseUrl}send-email/';
+  static const verifyEmail = '${baseUrl}send-email/';
   static const signin = '${baseUrl}sign_in';
-  // get code for change password
   static const passChangeCode = '${baseUrl}send_code_for_change_password';
-  // change password
   static const changePass = '${baseUrl}change_password';
+  // 3 endpoint is for forgot password
+  static const requestResetCode = '${baseUrl}x';
+  static const verifyResetCode = '${baseUrl}xx';
+  static const resetPassword = '${baseUrl}xxx';
 }

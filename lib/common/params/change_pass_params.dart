@@ -1,13 +1,13 @@
 class ChangePassParams {
-  final String email;
-  final String password;
+  final String currentPassword;
+  final String newPassword;
 
-  ChangePassParams({required this.email, required this.password});
+  ChangePassParams({required this.currentPassword, required this.newPassword});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'email': email,
-      'new_password': password,
+      'current_password': currentPassword,
+      'new_password': newPassword,
     };
   }
 }

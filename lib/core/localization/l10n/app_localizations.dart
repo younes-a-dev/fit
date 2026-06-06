@@ -98,6 +98,234 @@ abstract class AppLocalizations {
     Locale('fa')
   ];
 
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @dontHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an Account?'**
+  String get dontHaveAccount;
+
+  /// No description provided for @haveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an Account?'**
+  String get haveAccount;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// No description provided for @checkYourEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Your Email'**
+  String get checkYourEmail;
+
+  /// No description provided for @verificationCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a 6-digit verification code to'**
+  String get verificationCodeSent;
+
+  /// No description provided for @signInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN IN'**
+  String get signInTitle;
+
+  /// No description provided for @signUpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN UP'**
+  String get signUpTitle;
+
+  /// No description provided for @forgotYourPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot your password?'**
+  String get forgotYourPassword;
+
+  /// No description provided for @resetPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered email below and we\'ll send you a code to reset your password.'**
+  String get resetPasswordDescription;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @resetCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a code to your email address to reset your password'**
+  String get resetCodeSent;
+
+  /// No description provided for @verifyCodeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please type the verification code sent to'**
+  String get verifyCodeDescription;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @verificationCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code is required'**
+  String get verificationCodeRequired;
+
+  /// No description provided for @verificationCodeLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Code must be 6 digits'**
+  String get verificationCodeLength;
+
+  /// No description provided for @verificationCodeNumbersOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Code must contain only numbers'**
+  String get verificationCodeNumbersOnly;
+
+  /// No description provided for @invalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Code'**
+  String get invalidCode;
+
+  /// No description provided for @invalidCodeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct verification code'**
+  String get invalidCodeMessage;
+
+  /// No description provided for @createNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new password'**
+  String get createNewPassword;
+
+  /// No description provided for @createNewPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password below. Make sure it\'s strong and easy for you to remember.'**
+  String get createNewPasswordDescription;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm New Password'**
+  String get confirmNewPassword;
+
+  /// No description provided for @passwordChangedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Changed Successfully'**
+  String get passwordChangedSuccessfully;
+
+  /// No description provided for @passwordChangedSuccessfullyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been updated! You can now use your new password to log in.'**
+  String get passwordChangedSuccessfullyMessage;
+
+  /// No description provided for @passwordChangeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops! Something Went Wrong'**
+  String get passwordChangeFailed;
+
+  /// No description provided for @passwordChangeFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t update your password. Try again later'**
+  String get passwordChangeFailedMessage;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get emailRequired;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get invalidEmail;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is required'**
+  String get passwordRequired;
+
+  /// No description provided for @passwordMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters'**
+  String get passwordMinLength;
+
+  /// No description provided for @passwordUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one uppercase letter'**
+  String get passwordUppercase;
+
+  /// No description provided for @passwordNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must contain at least one number'**
+  String get passwordNumber;
+
+  /// No description provided for @confirmPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your password'**
+  String get confirmPasswordRequired;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'{fieldName} is required'**
+  String fieldRequired(Object fieldName);
+
   /// No description provided for @next.
   ///
   /// In en, this message translates to:

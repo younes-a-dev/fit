@@ -2,17 +2,11 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/dio_client.dart';
-import 'features/feature_auth/data/data_source/auth_api_provider.dart';
+import 'features/feature_auth/data/data_source/auth_remote_data_source.dart';
 import 'features/feature_auth/data/data_source/auth_local_data_source.dart';
 import 'features/feature_auth/data/repository/auth_repository_impl.dart';
 import 'features/feature_auth/domain/repository/auth_repository.dart';
 import 'features/feature_auth/domain/usecase/auth_usecases.dart';
-import 'features/feature_auth/domain/usecase/change_pass_usecase.dart';
-import 'features/feature_auth/domain/usecase/logout_usecase.dart';
-import 'features/feature_auth/domain/usecase/pass_change_code_usecase.dart';
-import 'features/feature_auth/domain/usecase/send_email_usecase.dart';
-import 'features/feature_auth/domain/usecase/sign_up_usecase.dart';
-import 'features/feature_auth/domain/usecase/signin_usecase.dart';
 import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
 import 'features/feature_startup/data/data_source/startup_local_data_source.dart';
 import 'features/feature_startup/data/data_source/startup_remote_data_source.dart';
@@ -100,21 +94,23 @@ Future<void> _registerAsyncDependencies() async {
 // Auth Feature
 void _initAuthFeature() {
   // Data Sources
-  sl.registerSingleton<AuthApiProvider>(AuthApiProviderImpl());
+  sl.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl(sl(),sl()));
   sl.registerSingleton<AuthLocalDataSource>(AuthLocalDataSourceImpl(sl()));
 
   // Repository
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(sl()));
+  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(sl(),sl()));
 
   // Use Cases
-  sl.registerSingleton<SendEmailUsecase>(SendEmailUsecase());
-  sl.registerSingleton<SignUpUsecase>(SignUpUsecase());
-  sl.registerSingleton<SigninUsecase>(SigninUsecase());
   sl.registerLazySingleton<CheckLoggedInUseCase>(() => CheckLoggedInUseCase(sl()));
-  sl.registerSingleton<LogoutUsecase>(LogoutUsecase());
-  sl.registerSingleton<ChangePassUsecase>(ChangePassUsecase());
-  sl.registerSingleton<PassChangeCodeUsecase>(PassChangeCodeUsecase());
+  sl.registerLazySingleton<SignUpWithEmailUseCase>(()=> SignUpWithEmailUseCase(sl()));
+  sl.registerLazySingleton<VerifyEmailUseCase>(()=> VerifyEmailUseCase(sl()));
+  sl.registerLazySingleton<SignInWithEmailUseCase>(()=> SignInWithEmailUseCase(sl()));
+  sl.registerLazySingleton<ChangePasswordUseCase>(()=> ChangePasswordUseCase(sl()));
+  sl.registerLazySingleton<RequestResetCodeUseCase>(()=> RequestResetCodeUseCase(sl()));
+  sl.registerLazySingleton<VerifyResetCodeUseCase>(()=> VerifyResetCodeUseCase(sl()));
+  sl.registerLazySingleton<ResetPasswordUseCase>(()=> ResetPasswordUseCase(sl()));
+  sl.registerLazySingleton<LogoutUseCase>(()=>LogoutUseCase(sl()));
 
   // Cubit
-  sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
+  sl.registerFactory<AuthCubit>(() => AuthCubit(sl(),sl(),sl(),sl(),sl(),sl(),sl(),sl()));
 }

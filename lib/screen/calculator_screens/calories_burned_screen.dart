@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:toggle_switch/toggle_switch.dart' as ts;
-import '../../widgets/custom_textfield_widget.dart';
+import '../../core/widgets/custom_textfield_widget.dart';
 import '../../res/colors.dart';
 import '../../widgets/app_bar_widget.dart';
 

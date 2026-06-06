@@ -1,8 +1,8 @@
-class SignUpParams {
+class SignUpWithEmailParams {
   final String email;
   final String password;
 
-  SignUpParams({required this.email, required this.password});
+  SignUpWithEmailParams({required this.email, required this.password});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

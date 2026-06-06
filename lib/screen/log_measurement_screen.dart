@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/app_bar_widget.dart';
-import '../../widgets/custom_textfield_widget.dart';
+import '../core/widgets/custom_textfield_widget.dart';
 
 import '../provider/measure.dart';
 import '../res/colors.dart';
@@ -100,548 +100,548 @@ class _LogMeasurementScreenState extends State<LogMeasurementScreen> {
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-        child: Form(
-          key: _form,
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      // Current Date
-                       Text(
-                        'Date',
-                        style:
-                            TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
-                      ),
-                      const Spacer(),
-                      Text(
-                        DateFormat.yMMMEd().format(DateTime.now()),
-                        style:  TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(10),
-                  const Divider(color: MyColors.mainColor,),
-                  const Gap(15),
-                   Text(
-                    'Measurements',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Gap(15),
-                ],
-              ),
-              // TextFormField List
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      CustomTextFormFieldWidget(
-                        label: 'Body weight',
-                        units: (' '
-                            '(Kg)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context).requestFocus(_waistFocusNode);
-                        },
-                        focusNode: _bodyWeightFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Waist',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_bodyFatFocusNode);
-                        },
-                        focusNode: _waistFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Body fat',
-                        units: (' (%)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context).requestFocus(_neckFocusNode);
-                        },
-                        focusNode: _bodyFatFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Neck',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_shoulderFocusNode);
-                        },
-                        focusNode: _neckFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Shoulder',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context).requestFocus(_chestFocusNode);
-                        },
-                        focusNode: _shoulderFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Chest',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_leftBicepFocusNode);
-                        },
-                        focusNode: _chestFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Left bicep',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_rightBicepFocusNode);
-                        },
-                        focusNode: _leftBicepFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Right bicep',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_leftForearmFocusNode);
-                        },
-                        focusNode: _rightBicepFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Left forearm',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_rightForeArmFocusNode);
-                        },
-                        focusNode: _leftForearmFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Right foreArm',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_abdomenFocusNode);
-                        },
-                        focusNode: _rightForeArmFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Abdomen',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context).requestFocus(_hipsFocusNode);
-                        },
-                        focusNode: _abdomenFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Hips',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_leftThighFocusNode);
-                        },
-                        focusNode: _hipsFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Left thigh',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_rightThighFocusNode);
-                        },
-                        focusNode: _leftThighFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Right thigh',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_leftCalfFocusNode);
-                        },
-                        focusNode: _rightThighFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Left calf',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {
-                          FocusScope.of(context)
-                              .requestFocus(_rightCalfFocusNode);
-                        },
-                        focusNode: _leftCalfFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: value == ''
-                                ? null
-                                : double.parse(value as String),
-                            rightCalf: _editedMeasurement.rightCalf,
-                          );
-                        },
-                      ),
-                      CustomTextFormFieldWidget(
-                        label: 'Right calf',
-                        units: (' (cm)'),
-                        focusNodeFunction: () {},
-                        focusNode: _rightCalfFocusNode,
-                        onSaveFunction: (value) {
-                          _editedMeasurement = Measure(
-                            bodyWeight: _editedMeasurement.bodyWeight,
-                            waist: _editedMeasurement.waist,
-                            bodyFat: _editedMeasurement.bodyFat,
-                            neck: _editedMeasurement.neck,
-                            shoulder: _editedMeasurement.shoulder,
-                            chest: _editedMeasurement.chest,
-                            leftBicep: _editedMeasurement.leftBicep,
-                            rightBicep: _editedMeasurement.rightBicep,
-                            leftForearm: _editedMeasurement.leftForearm,
-                            rightForearm: _editedMeasurement.rightForearm,
-                            abdomen: _editedMeasurement.abdomen,
-                            hips: _editedMeasurement.hips,
-                            leftThigh: _editedMeasurement.leftThigh,
-                            rightThigh: _editedMeasurement.rightThigh,
-                            leftCalf: _editedMeasurement.leftCalf,
-                            rightCalf: value == ''
-                                ? null
-                                : double.parse(value as String),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
+        // child: Form(
+        //   key: _form,
+        //   child: Column(
+        //     children: [
+        //       Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           Row(
+        //             children: [
+        //               // Current Date
+        //                Text(
+        //                 'Date',
+        //                 style:
+        //                     TextStyle(color: Theme.of(context).primaryColor, fontSize: 18),
+        //               ),
+        //               const Spacer(),
+        //               Text(
+        //                 DateFormat.yMMMEd().format(DateTime.now()),
+        //                 style:  TextStyle(
+        //                   color: Theme.of(context).primaryColor,
+        //                   fontSize: 16,
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //           const Gap(10),
+        //           const Divider(color: MyColors.mainColor,),
+        //           const Gap(15),
+        //            Text(
+        //             'Measurements',
+        //             style: TextStyle(
+        //               color: Theme.of(context).primaryColor,
+        //               fontSize: 18,
+        //               fontWeight: FontWeight.bold,
+        //             ),
+        //           ),
+        //           const Gap(15),
+        //         ],
+        //       ),
+        //       // TextFormField List
+        //       Expanded(
+        //         child: SingleChildScrollView(
+        //           physics: const BouncingScrollPhysics(),
+        //           child: Column(
+        //             children: [
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Body weight',
+        //                 units: (' '
+        //                     '(Kg)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context).requestFocus(_waistFocusNode);
+        //                 },
+        //                 focusNode: _bodyWeightFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Waist',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_bodyFatFocusNode);
+        //                 },
+        //                 focusNode: _waistFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Body fat',
+        //                 units: (' (%)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context).requestFocus(_neckFocusNode);
+        //                 },
+        //                 focusNode: _bodyFatFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Neck',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_shoulderFocusNode);
+        //                 },
+        //                 focusNode: _neckFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Shoulder',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context).requestFocus(_chestFocusNode);
+        //                 },
+        //                 focusNode: _shoulderFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Chest',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_leftBicepFocusNode);
+        //                 },
+        //                 focusNode: _chestFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Left bicep',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_rightBicepFocusNode);
+        //                 },
+        //                 focusNode: _leftBicepFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Right bicep',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_leftForearmFocusNode);
+        //                 },
+        //                 focusNode: _rightBicepFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Left forearm',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_rightForeArmFocusNode);
+        //                 },
+        //                 focusNode: _leftForearmFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Right foreArm',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_abdomenFocusNode);
+        //                 },
+        //                 focusNode: _rightForeArmFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Abdomen',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context).requestFocus(_hipsFocusNode);
+        //                 },
+        //                 focusNode: _abdomenFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Hips',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_leftThighFocusNode);
+        //                 },
+        //                 focusNode: _hipsFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Left thigh',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_rightThighFocusNode);
+        //                 },
+        //                 focusNode: _leftThighFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Right thigh',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_leftCalfFocusNode);
+        //                 },
+        //                 focusNode: _rightThighFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Left calf',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {
+        //                   FocusScope.of(context)
+        //                       .requestFocus(_rightCalfFocusNode);
+        //                 },
+        //                 focusNode: _leftCalfFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                     rightCalf: _editedMeasurement.rightCalf,
+        //                   );
+        //                 },
+        //               ),
+        //               CustomTextFormFieldWidget(
+        //                 label: 'Right calf',
+        //                 units: (' (cm)'),
+        //                 focusNodeFunction: () {},
+        //                 focusNode: _rightCalfFocusNode,
+        //                 onSaveFunction: (value) {
+        //                   _editedMeasurement = Measure(
+        //                     bodyWeight: _editedMeasurement.bodyWeight,
+        //                     waist: _editedMeasurement.waist,
+        //                     bodyFat: _editedMeasurement.bodyFat,
+        //                     neck: _editedMeasurement.neck,
+        //                     shoulder: _editedMeasurement.shoulder,
+        //                     chest: _editedMeasurement.chest,
+        //                     leftBicep: _editedMeasurement.leftBicep,
+        //                     rightBicep: _editedMeasurement.rightBicep,
+        //                     leftForearm: _editedMeasurement.leftForearm,
+        //                     rightForearm: _editedMeasurement.rightForearm,
+        //                     abdomen: _editedMeasurement.abdomen,
+        //                     hips: _editedMeasurement.hips,
+        //                     leftThigh: _editedMeasurement.leftThigh,
+        //                     rightThigh: _editedMeasurement.rightThigh,
+        //                     leftCalf: _editedMeasurement.leftCalf,
+        //                     rightCalf: value == ''
+        //                         ? null
+        //                         : double.parse(value as String),
+        //                   );
+        //                 },
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
