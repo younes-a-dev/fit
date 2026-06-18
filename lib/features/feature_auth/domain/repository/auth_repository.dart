@@ -11,8 +11,8 @@ import '../entity/auth_entity.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure,AuthEntity>> signUpWithEmail(SignUpWithEmailParams params);
-  Future<Either<Failure,Unit>> verifyEmail(VerifyEmailParams param);
-  Future<Either<Failure,Unit>> signInWithEmail(SignInWithEmailParams params);
+  Future<Either<Failure,AuthEntity>> verifyEmail(VerifyEmailParams param);
+  Future<Either<Failure,AuthEntity>> signInWithEmail(SignInWithEmailParams params);
   Future<Either<Failure,Unit>> changePassword(ChangePassParams params);
   // these 3 api is for forgot password
   Future<Either<Failure,Unit>> requestResetCode(String email);

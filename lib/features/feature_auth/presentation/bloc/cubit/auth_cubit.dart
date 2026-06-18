@@ -73,8 +73,8 @@ class AuthCubit extends Cubit<AuthState> {
     result.fold((failure) {
       emit(state.copyWith(
           newVerifyEmailStatus: VerifyEmailError(message: failure.message)));
-    }, (_) {
-      emit(state.copyWith(newVerifyEmailStatus: VerifyEmailCompleted()));
+    }, (auth) {
+      emit(state.copyWith(newVerifyEmailStatus: VerifyEmailCompleted(auth)));
     });
   }
 
@@ -87,9 +87,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
           newSignInWithEmailStatus:
               SignInWithEmailError(message: failure.message)));
-    }, (_) {
+    }, (auth) {
       emit(
-          state.copyWith(newSignInWithEmailStatus: SignInWithEmailCompleted()));
+          state.copyWith(newSignInWithEmailStatus: SignInWithEmailCompleted(auth)));
     });
   }
 

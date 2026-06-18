@@ -1,4 +1,7 @@
 enum Language { english, persian }
+enum Gender { male,female,other}
+enum UserRole {normal,coach}
+enum WeekStartDay {saturday,sunday,monday}
 
 extension LanguageExtension on Language {
   String get code {

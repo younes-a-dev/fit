@@ -35,12 +35,12 @@ class SignUpWithEmailUseCase
 }
 
 // Verify Email
-class VerifyEmailUseCase implements UseCase<Either<Failure,Unit>,VerifyEmailParams>{
+class VerifyEmailUseCase implements UseCase<Either<Failure,AuthEntity>,VerifyEmailParams>{
   final AuthRepository _authRepository;
   VerifyEmailUseCase(this._authRepository);
 
   @override
-  Future<Either<Failure,Unit>> call({VerifyEmailParams? param}){
+  Future<Either<Failure,AuthEntity>> call({VerifyEmailParams? param}){
     return _authRepository.verifyEmail(param!);
   }
 
@@ -48,12 +48,12 @@ class VerifyEmailUseCase implements UseCase<Either<Failure,Unit>,VerifyEmailPara
 
 // SignIn - Email
 class SignInWithEmailUseCase
-    implements UseCase<Either<Failure, Unit>, SignInWithEmailParams> {
+    implements UseCase<Either<Failure, AuthEntity>, SignInWithEmailParams> {
   final AuthRepository _authRepository;
   SignInWithEmailUseCase(this._authRepository);
 
   @override
-  Future<Either<Failure, Unit>> call({SignInWithEmailParams? param}) {
+  Future<Either<Failure, AuthEntity>> call({SignInWithEmailParams? param}) {
     return _authRepository.signInWithEmail(param!);
   }
 }

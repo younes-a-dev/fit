@@ -4,29 +4,17 @@ import '../../../../core/constants/enums.dart';
 
 class AuthModel extends AuthEntity {
   const AuthModel({
-    required String id,
-    String? email,
-    String? phoneNumber,
-    required UserRole role,
-    required bool isPremium,
+    required String accessToken,
+    required String refreshToken,
   }) : super(
-          id: id,
-          email: email,
-          phoneNumber: phoneNumber,
-          role: role,
-          isPremium: isPremium,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
         );
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
-      id: json['id'],
-      email: json['email'] ?? '',
-      phoneNumber: json['phone_number'] ?? '',
-      role: UserRole.values.firstWhere(
-        (e) => e.name == (json['role'] ?? 'normal'),
-        orElse: () => UserRole.normal,
-      ),
-      isPremium: json['is_premium'] ?? false,
+      accessToken: json['access_token'],
+      refreshToken: json['refresh_token'],
     );
   }
 }

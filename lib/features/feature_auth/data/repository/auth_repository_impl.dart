@@ -36,11 +36,14 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> verifyEmail(VerifyEmailParams param) async {
+  Future<Either<Failure, AuthEntity>> verifyEmail(VerifyEmailParams param) async {
     try {
-      final String token = await _authRemoteDataSource.verifyEmail(param);
-      await _authLocalService.saveToken(token);
-      return Right(unit);
+      final auth = await _authRemoteDataSource.verifyEmail(param);
+      await _authLocalService.saveSession(
+        accessToken: auth.accessToken,
+        refreshToken: auth.accessToken,
+      );
+      return Right(auth);
     } on CustomException catch (e) {
       if (e is NetworkException) return Left(NetworkFailure(e.message));
       if (e is BusinessException) return Left(BusinessFailure(e.message));
@@ -51,12 +54,15 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signInWithEmail(
+  Future<Either<Failure, AuthEntity>> signInWithEmail(
       SignInWithEmailParams params) async {
     try {
-      final String token = await _authRemoteDataSource.signInWithEmail(params);
-      await _authLocalService.saveToken(token);
-      return Right(unit);
+      final auth = await _authRemoteDataSource.signInWithEmail(params);
+      await _authLocalService.saveSession(
+        accessToken: auth.accessToken,
+        refreshToken: auth.refreshToken,
+      );
+      return Right(auth);
     } on CustomException catch (e) {
       if (e is NetworkException) return Left(NetworkFailure(e.message));
       if (e is BusinessException) return Left(BusinessFailure(e.message));
@@ -89,7 +95,6 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(LocalFailure(e.toString()));
     }
   }
-
 
   @override
   Future<Either<Failure, Unit>> logout() async {

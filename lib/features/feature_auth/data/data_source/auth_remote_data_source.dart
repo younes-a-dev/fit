@@ -16,8 +16,8 @@ import '../model/auth_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthModel> signUpWithEmail(SignUpWithEmailParams params);
-  Future<String> verifyEmail(VerifyEmailParams param);
-  Future<String> signInWithEmail(SignInWithEmailParams params);
+  Future<AuthModel> verifyEmail(VerifyEmailParams param);
+  Future<AuthModel> signInWithEmail(SignInWithEmailParams params);
   Future<void> changePassword(ChangePassParams params);
   Future<void> requestResetCode(String email);
   Future<String> verifyResetCode(VerifyResetCodeParams params);
@@ -49,41 +49,31 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<String> verifyEmail(VerifyEmailParams params) async {
+  Future<AuthModel> verifyEmail(VerifyEmailParams params) async {
     try {
-      var response = await _dioClient.post(
+      final response = await _dioClient.post(
         ApiUrls.verifyEmail,
         data: params.toMap(),
       );
-      final Map<String, dynamic> json = response.data;
-      validateApiResponse(json);
-      final String? token = response.data['data'];
-      if (token == null || token.isEmpty) {
-        throw ServerException('Authorization token missing');
-      }
-      return token;
+      validateApiResponse(response.data);
+      return AuthModel.fromJson(response.data['data']);
     } on DioException catch (e) {
       throw mapDioExceptionToException(e);
     }
   }
 
   @override
-  Future<String> signInWithEmail(SignInWithEmailParams params) async {
+  Future<AuthModel> signInWithEmail(SignInWithEmailParams params) async {
     try {
-      var response = await _dioClient.post(
+      final response = await _dioClient.post(
         ApiUrls.signin,
         data: params.toMap(),
         options: Options(
           contentType: 'application/json',
         ),
       );
-      final Map<String, dynamic> json = response.data;
-      validateApiResponse(json);
-      final String? token = response.data['data'];
-      if (token == null || token.isEmpty) {
-        throw ServerException('Authorization token missing');
-      }
-      return token;
+      validateApiResponse(response.data);
+      return AuthModel.fromJson(response.data['data']);
     } on DioException catch (e) {
       throw mapDioExceptionToException(e);
     }
