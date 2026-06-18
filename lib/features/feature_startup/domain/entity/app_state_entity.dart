@@ -4,6 +4,10 @@ class AppStateEntity extends Equatable {
   final bool hasUpdate;
   final bool isUpdateForced;
   final bool isServerAvailable;
+  final bool coachFeatureEnabled;
+  final bool paymentEnabled;
+  final bool adsEnabled;
+  final String maintenanceMessage;
   final String latestVersion;
   final String minVersion;
 
@@ -11,6 +15,10 @@ class AppStateEntity extends Equatable {
     required this.hasUpdate,
     required this.isUpdateForced,
     required this.isServerAvailable,
+    required this.coachFeatureEnabled,
+    required this.paymentEnabled,
+    required this.adsEnabled,
+    required this.maintenanceMessage,
     required this.latestVersion,
     required this.minVersion,
   });
@@ -18,8 +26,12 @@ class AppStateEntity extends Equatable {
   @override
   List<Object?> get props => [
         hasUpdate,
-        isServerAvailable,
         isUpdateForced,
+        isServerAvailable,
+        coachFeatureEnabled,
+        paymentEnabled,
+        adsEnabled,
+        maintenanceMessage,
         latestVersion,
         minVersion,
       ];

@@ -38,6 +38,10 @@ class StartupRemoteDataSourceImpl implements StartupRemoteDataSource {
         hasUpdate: false,
         isUpdateForced: false,
         isServiceAvailable: true,
+        coachFeatureEnabled: false,
+        paymentEnabled: false,
+        adsEnabled: false,
+        maintenanceMessage: '',
         latestVersion: '2.0.0',
         minVersion: '1.0.0',
       );

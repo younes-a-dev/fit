@@ -30,6 +30,7 @@ class StartupRepositoryImpl implements StartupRepository {
   Future<Either<Failure, AppStateEntity>> checkAppState() async {
     try {
       final appState = await _dataSource.getAppState();
+      await _localDataSource.saveAppState(appState);
       return Right(appState);
     } on CustomException catch (e) {
       if (e is NetworkException) return Left(NetworkFailure(e.message));

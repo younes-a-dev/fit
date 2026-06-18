@@ -95,7 +95,10 @@ class StartupCubit extends Cubit<SplashState> {
       if (!appStatus.isServerAvailable) {
         emit(state.copyWith(
             newCheckAppStatus: CheckAppStateAvailability(
-                'Server is currently unavailable. Please try again later.')));
+          appStatus.maintenanceMessage.isEmpty
+              ? 'Server is currently unavailable. Please try again later.'
+              : appStatus.maintenanceMessage,
+        )));
         return;
       }
       if (appStatus.hasUpdate) {
