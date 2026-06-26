@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_interop';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -7,19 +6,14 @@ import '../model/app_state_model.dart';
 
 abstract class StartupLocalDataSource {
   Future<bool> checkFirstTime();
-
   Future<void> setFirstTime();
-
   Future<void> saveAppState(AppStateModel model);
-
   Future<AppStateModel?> getCachedAppState();
 }
 
 class StartupLocalDataSourceImpl implements StartupLocalDataSource {
   final SharedPreferences _pref;
-
   static const String _introCompletedKey = 'intro_completed';
-
   StartupLocalDataSourceImpl(this._pref);
 
   // Check First time

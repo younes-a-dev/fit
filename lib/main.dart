@@ -11,7 +11,8 @@ import '../../screen/calculator_screens/calories_burned_screen.dart';
 import '../../screen/calculator_screens/daily_calorie_calculator_screen.dart';
 import '../../screen/care_plans_screen.dart';
 import '../../screen/change_password_screen.dart';
-import '../../screen/init_user_info.dart';
+import 'features/feature_user/presentation/cubit/user_cubit.dart';
+import 'features/feature_user/presentation/screen/initial_profile_setup_screen.dart';
 import '../../screen/log_measurement_screen.dart';
 import '../../screen/main/add_exercise_screen.dart';
 import '../../screen/calculators_screen.dart';
@@ -102,6 +103,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => sl<AuthCubit>(),
         ),
+        BlocProvider(
+          create: (context) => sl<UserCubit>(),
+        ),
         // ChangeNotifierProvider(
         //   create: (ctx) => Auth(),
         // ),
@@ -146,6 +150,7 @@ class _MyAppState extends State<MyApp> {
             initialRoute: '/',
             routes: {
               AuthScreen.routeName: (ctx) => const AuthScreen(),
+              SplashScreen.routeName: (ctx) => SplashScreen(),
               LanguageSelectionPage.routeName : (ctx) => LanguageSelectionPage(),
               VerifyCodeScreen.routeName: (ctx) => VerifyCodeScreen(),
               ResetPasswordScreen.routeName: (ctx) => ResetPasswordScreen(),
@@ -196,7 +201,7 @@ class _MyAppState extends State<MyApp> {
                   const SelectedHexFitPlanScreen(),
               CreatePlanScreen.routeName: (ctx) => const CreatePlanScreen(),
               ChangePasswordScreen.routeName: (ctx) => const ChangePasswordScreen(),
-              InitUserInfo.routeName: (ctx) => const InitUserInfo(),
+              InitialProfileSetupScreen.routeName: (ctx) => const InitialProfileSetupScreen(),
             },
           );
         }

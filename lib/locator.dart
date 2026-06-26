@@ -14,6 +14,12 @@ import 'features/feature_startup/data/repository/startup_repository_impl.dart';
 import 'features/feature_startup/domain/repository/startup_repository.dart';
 import 'features/feature_startup/domain/usecase/startup_usecases.dart';
 import 'features/feature_startup/presentation/cubit/startup_cubit.dart';
+import 'features/feature_user/data/data_source/user_local_data_source.dart';
+import 'features/feature_user/data/data_source/user_remote_data_source.dart';
+import 'features/feature_user/data/repository/user_repository_impl.dart';
+import 'features/feature_user/domain/repository/user_repository.dart';
+import 'features/feature_user/domain/usecase/user_usecases.dart';
+import 'features/feature_user/presentation/cubit/user_cubit.dart';
 import 'features/language/data/data_source/language_local_data_source.dart';
 import 'features/language/data/repository/language_repository_impl.dart';
 import 'features/language/domain/repository/language_repository.dart';
@@ -50,7 +56,8 @@ Future<void> _registerAsyncDependencies() async {
  _registerFeatures()  {
    _initStartupFeature();
    _initLanguageFeature();
-  _initAuthFeature();
+   _initAuthFeature();
+   _initUserFeature();
 }
 
 
@@ -64,7 +71,7 @@ Future<void> _registerAsyncDependencies() async {
   sl.registerLazySingleton<StartupRepository>(() => StartupRepositoryImpl(sl(), sl()));
 
   // Use Cases
-  sl.registerSingleton<CheckInternetUseCase>(CheckInternetUseCase(sl()));
+  sl.registerLazySingleton<CheckInternetUseCase>(() =>CheckInternetUseCase(sl()));
   sl.registerLazySingleton<CheckAppStateUseCase>(() => CheckAppStateUseCase(sl()));
   sl.registerLazySingleton<CheckFirstTimeUseCase>(() => CheckFirstTimeUseCase(sl()));
   sl.registerLazySingleton<SetFirstTimeUseCase>(() => SetFirstTimeUseCase(sl()));
@@ -83,7 +90,7 @@ Future<void> _registerAsyncDependencies() async {
   sl.registerLazySingleton<LanguageRepository>(() => LanguageRepositoryImpl(sl()));
 
   // Use Cases
-  sl.registerSingleton<GetSavedLanguageUseCase>(GetSavedLanguageUseCase(sl()));
+  sl.registerLazySingleton<GetSavedLanguageUseCase>(()=>GetSavedLanguageUseCase(sl()));
   sl.registerLazySingleton<SaveLanguageUseCase>(() => SaveLanguageUseCase(sl()));
 
   // Cubit
@@ -94,11 +101,11 @@ Future<void> _registerAsyncDependencies() async {
 // Auth Feature
 void _initAuthFeature() {
   // Data Sources
-  sl.registerSingleton<AuthRemoteDataSource>(AuthRemoteDataSourceImpl(sl(),sl()));
-  sl.registerSingleton<AuthLocalDataSource>(AuthLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(sl(),sl()));
 
   // Repository
-  sl.registerSingleton<AuthRepository>(AuthRepositoryImpl(sl(),sl()));
+  sl.registerLazySingleton<AuthRepository>(()=>AuthRepositoryImpl(sl(),sl()));
 
   // Use Cases
   sl.registerLazySingleton<CheckLoggedInUseCase>(() => CheckLoggedInUseCase(sl()));
@@ -109,8 +116,20 @@ void _initAuthFeature() {
   sl.registerLazySingleton<RequestResetCodeUseCase>(()=> RequestResetCodeUseCase(sl()));
   sl.registerLazySingleton<VerifyResetCodeUseCase>(()=> VerifyResetCodeUseCase(sl()));
   sl.registerLazySingleton<ResetPasswordUseCase>(()=> ResetPasswordUseCase(sl()));
-  sl.registerLazySingleton<LogoutUseCase>(()=>LogoutUseCase(sl()));
+  sl.registerLazySingleton<LogoutUseCase>(()=>LogoutUseCase(sl(),sl()));
 
   // Cubit
   sl.registerFactory<AuthCubit>(() => AuthCubit(sl(),sl(),sl(),sl(),sl(),sl(),sl(),sl()));
+}
+
+void _initUserFeature(){
+  sl.registerLazySingleton<UserLocalDataSource>(()=>UserLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<UserRemoteDataSource>(()=> UserRemoteDataSourceImpl((sl())));
+
+  sl.registerLazySingleton<UserRepository>(()=>UserRepositoryImpl(sl(), sl()));
+
+  sl.registerLazySingleton<GetCurrentUserUseCase>(()=> GetCurrentUserUseCase(sl()));
+  sl.registerLazySingleton<CompleteInitialSetupUseCase>(()=> CompleteInitialSetupUseCase(sl()));
+
+  sl.registerFactory<UserCubit>(()=> UserCubit(sl(),sl()));
 }

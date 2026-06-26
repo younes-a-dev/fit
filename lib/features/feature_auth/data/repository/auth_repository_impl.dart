@@ -41,7 +41,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final auth = await _authRemoteDataSource.verifyEmail(param);
       await _authLocalService.saveSession(
         accessToken: auth.accessToken,
-        refreshToken: auth.accessToken,
+        refreshToken: auth.refreshToken,
       );
       return Right(auth);
     } on CustomException catch (e) {

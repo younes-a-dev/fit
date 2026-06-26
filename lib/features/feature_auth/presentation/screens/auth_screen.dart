@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluent_ui/fluent_ui.dart' as flu;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:workout/features/feature_user/presentation/cubit/get_current_user_status.dart';
 
 import '../../../../bottom_navigator.dart';
 import '../../../../common/params/sign_in_params.dart';
@@ -10,6 +11,8 @@ import '../../../../core/localization/l10n/app_localizations.dart';
 import '../../../../core/responsive/responsive_context.dart';
 import '../../../../core/utils/dialog_helper.dart';
 import '../../../../core/utils/validators.dart';
+import '../../../feature_user/presentation/cubit/user_cubit.dart';
+import '../../../feature_user/presentation/screen/initial_profile_setup_screen.dart';
 import '../bloc/cubit/auth_cubit.dart';
 import '../bloc/cubit/status/sign_in_with_email_status.dart';
 import '../bloc/cubit/status/sign_up_with_email_status.dart';
@@ -55,48 +58,69 @@ class _AuthScreenState extends State<AuthScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state.signInWithEmailStatus is SignInWithEmailCompleted) {
-          context.read<AuthCubit>().resetAuthStatus();
-          Navigator.of(context).pushReplacementNamed(BottomNavigator.routeName);
-        }
-        if (state.signUpWithEmailStatus is SignUpWithEmailCompleted) {
-          context.read<AuthCubit>().resetAuthStatus();
-          DialogHelper.showInfoDialog(
-            context,
-            title: '',
-            content:
-                '${l10n.checkYourEmail}\n${l10n.verificationCodeSent} ${_emailController.text}',
-          ).then((_) => Navigator.of(context).pushReplacementNamed(
-                VerifyCodeScreen.routeName,
-              ));
-        }
-        if (state.signUpWithEmailStatus is SignUpWithEmailError) {
-          final message =
-              (state.signUpWithEmailStatus as SignUpWithEmailError).message;
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state.signInWithEmailStatus is SignInWithEmailCompleted) {
+              context.read<UserCubit>().getCurrentUserEvent();
+              context.read<AuthCubit>().resetAuthStatus();
+            }
+            if (state.signUpWithEmailStatus is SignUpWithEmailCompleted) {
+              context.read<AuthCubit>().resetAuthStatus();
+              DialogHelper.showInfoDialog(
+                context,
+                title: '',
+                content:
+                    '${l10n.checkYourEmail}\n${l10n.verificationCodeSent} ${_emailController.text}',
+              ).then((_) => Navigator.of(context).pushReplacementNamed(
+                    VerifyCodeScreen.routeName,
+                  ));
+            }
+            if (state.signUpWithEmailStatus is SignUpWithEmailError) {
+              final message =
+                  (state.signUpWithEmailStatus as SignUpWithEmailError).message;
 
-          DialogHelper.showErrorDialog(
-            context,
-            title: l10n.error,
-            content: message,
-          ).then((_) {
-            context.read<AuthCubit>().resetAuthStatus();
-          });
-        }
-        if (state.signInWithEmailStatus is SignInWithEmailError) {
-          final message =
-              (state.signInWithEmailStatus as SignInWithEmailError).message;
+              DialogHelper.showErrorDialog(
+                context,
+                title: l10n.error,
+                content: message,
+              ).then((_) {
+                context.read<AuthCubit>().resetAuthStatus();
+              });
+            }
+            if (state.signInWithEmailStatus is SignInWithEmailError) {
+              final message =
+                  (state.signInWithEmailStatus as SignInWithEmailError).message;
 
-          DialogHelper.showErrorDialog(
-            context,
-            title: 'Error',
-            content: message,
-          ).then((_) {
-            context.read<AuthCubit>().resetAuthStatus();
-          });
-        }
-      },
+              DialogHelper.showErrorDialog(
+                context,
+                title: 'Error',
+                content: message,
+              ).then((_) {
+                context.read<AuthCubit>().resetAuthStatus();
+              });
+            }
+          },
+        ),
+        BlocListener<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state.getCurrentUserStatus is GetCurrentUserCompleted) {
+              final user =
+                  (state.getCurrentUserStatus as GetCurrentUserCompleted).user;
+              if (!user.initialSetupCompleted) {
+                Navigator.of(context)
+                    .pushReplacementNamed(InitialProfileSetupScreen.routeName);
+                context.read<UserCubit>().resetStatus();
+              } else {
+                Navigator.pushReplacementNamed(
+                    context, BottomNavigator.routeName);
+                context.read<UserCubit>().resetStatus();
+              }
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         body: SafeArea(
           child: Form(
@@ -147,6 +171,12 @@ class _AuthScreenState extends State<AuthScreen>
                               desktop: 40,
                             ),
                           ),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(InitialProfileSetupScreen.routeName);
+                              },
+                              child: Text('init screen'))
                         ],
                       ),
                     ),

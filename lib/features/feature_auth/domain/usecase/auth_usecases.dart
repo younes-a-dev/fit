@@ -8,6 +8,7 @@ import '../../../../common/params/verify_email_params.dart';
 import '../../../../common/params/verify_reset_code_params.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecase/usecase.dart';
+import '../../../feature_user/domain/repository/user_repository.dart';
 import '../entity/auth_entity.dart';
 import '../repository/auth_repository.dart';
 
@@ -104,11 +105,20 @@ class ResetPasswordUseCase implements UseCase<Either<Failure,Unit>,ResetPassword
 
 // Logout
 class LogoutUseCase implements UseCase<Either<Failure,Unit>,NoParams>{
-  final AuthRepository _authRepository;
-  LogoutUseCase(this._authRepository);
+  final AuthRepository authRepository;
+  final UserRepository userRepository;
+  LogoutUseCase(this.authRepository, this.userRepository);
 
   @override
-  Future<Either<Failure,Unit>> call({NoParams? param}){
-    return _authRepository.logout();
+  Future<Either<Failure, Unit>> call({NoParams? param}) async {
+    final authResult = await authRepository.logout();
+    return authResult.fold(
+      Left.new,
+          (_) async {
+        return await userRepository.clearUserCache();
+
+      },
+    );
+
   }
 }

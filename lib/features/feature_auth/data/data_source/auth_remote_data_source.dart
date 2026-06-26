@@ -13,7 +13,9 @@ import '../../../../core/error/exception.dart';
 import '../../../../core/error/exception_mapper.dart';
 import '../../../../core/network/dio_client.dart';
 import '../model/auth_model.dart';
+import 'auth_local_data_source.dart';
 
+const bool USE_MOCK = true;
 abstract class AuthRemoteDataSource {
   Future<AuthModel> signUpWithEmail(SignUpWithEmailParams params);
   Future<AuthModel> verifyEmail(VerifyEmailParams param);
@@ -26,12 +28,18 @@ abstract class AuthRemoteDataSource {
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   final DioClient _dioClient;
-  final SharedPreferences _prefs;
+  final AuthLocalDataSource _authLocalDataSource;
 
-  AuthRemoteDataSourceImpl(this._dioClient, this._prefs);
+  AuthRemoteDataSourceImpl(this._dioClient,this._authLocalDataSource);
 
   @override
   Future<AuthModel> signUpWithEmail(SignUpWithEmailParams params) async {
+    if (USE_MOCK) {
+      return AuthModel(
+        accessToken: '',
+        refreshToken: '',
+      );
+    }
     try {
       var response = await _dioClient.post(
         ApiUrls.register,
@@ -50,6 +58,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthModel> verifyEmail(VerifyEmailParams params) async {
+    if (USE_MOCK) {
+      return AuthModel(
+        accessToken: 'mock_access',
+        refreshToken: 'mock_refresh',
+      );
+    }
     try {
       final response = await _dioClient.post(
         ApiUrls.verifyEmail,
@@ -64,6 +78,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthModel> signInWithEmail(SignInWithEmailParams params) async {
+    if (USE_MOCK) {
+      await Future.delayed(
+        const Duration(seconds: 1),
+      );
+      return AuthModel(
+        accessToken: 'mock_access',
+        refreshToken: 'mock_refresh',
+      );
+    }
     try {
       final response = await _dioClient.post(
         ApiUrls.signin,
@@ -82,7 +105,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<void> changePassword(ChangePassParams params) async {
     try {
-      final token = _prefs.getString('token');
+      final token = await _authLocalDataSource.getAccessToken();
       await _dioClient.post(
         ApiUrls.changePass,
         data: params.toMap(),

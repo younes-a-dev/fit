@@ -5,9 +5,12 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../../bottom_navigator.dart';
 import '../../../../res/colors.dart';
+import '../../../feature_user/presentation/screen/initial_profile_setup_screen.dart';
 import '../../../feature_auth/presentation/bloc/cubit/auth_cubit.dart';
 import '../../../feature_auth/presentation/bloc/cubit/status/auth_status.dart';
 import '../../../feature_auth/presentation/screens/auth_screen.dart';
+import '../../../feature_user/presentation/cubit/get_current_user_status.dart';
+import '../../../feature_user/presentation/cubit/user_cubit.dart';
 import '../../../language/presentation/screens/language_selection_page.dart';
 import '../../domain/entity/app_state_entity.dart';
 import '../cubit/startup_cubit.dart';
@@ -17,6 +20,8 @@ import '../cubit/status/check_internet_status.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  static const routeName = '/SplashScreen';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -66,7 +71,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   (state.checkFirstTimeStatus as CheckFirstTimeCompleted)
                       .isFirstTime;
               if (isFirstTime) {
-                Navigator.pushNamed(context, LanguageSelectionPage.routeName);
+                Navigator.pushReplacementNamed(
+                    context, LanguageSelectionPage.routeName);
               } else {
                 context.read<AuthCubit>().checkLoggedIn();
               }
@@ -92,15 +98,41 @@ class _SplashScreenState extends State<SplashScreen> {
           listener: (context, state) {
             if (state.authStatus is AuthAuthenticated) {
               context.read<AuthCubit>().resetIsLoggedInStatus();
-              Navigator.pushNamed(context, BottomNavigator.routeName);
+              context.read<UserCubit>().getCurrentUserEvent();
             } else if (state.authStatus is AuthUnauthenticated) {
               context.read<AuthCubit>().resetIsLoggedInStatus();
-              Navigator.pushNamed(context, AuthScreen.routeName);
+              Navigator.pushReplacementNamed(context, AuthScreen.routeName);
             } else if (state.authStatus is AuthError) {
               final message = (state.authStatus as AuthError).message;
-              _showErrorDialog(context, message).then((_){
+              _showErrorDialog(context, message).then((_) {
                 context.read<AuthCubit>().resetIsLoggedInStatus();
               });
+            }
+          },
+        ),
+        // check user complete initial setup or not
+        BlocListener<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state.getCurrentUserStatus is GetCurrentUserCompleted) {
+              final user =
+                  (state.getCurrentUserStatus as GetCurrentUserCompleted).user;
+              if (!user.initialSetupCompleted) {
+                Navigator.pushReplacementNamed(context, InitialProfileSetupScreen.routeName);
+                context.read<UserCubit>().resetStatus();
+              } else {
+                Navigator.pushReplacementNamed(
+                    context, BottomNavigator.routeName);
+                context.read<UserCubit>().resetStatus();
+              }
+            }
+
+            if (state.getCurrentUserStatus is GetCurrentUserError) {
+              _showErrorDialog(
+                context,
+                (state.getCurrentUserStatus as GetCurrentUserError)
+                    .errorMessage,
+              );
+              context.read<UserCubit>().resetStatus();
             }
           },
         )
@@ -221,8 +253,11 @@ Future<void> _showUpdateDialog(
     context: context,
     barrierDismissible: !isForceUpdate,
     builder: (context) => AlertDialog(
-      title: Text(isForceUpdate ? 'Update Required' : 'Update Available',),
-      titleTextStyle: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),
+      title: Text(
+        isForceUpdate ? 'Update Required' : 'Update Available',
+      ),
+      titleTextStyle: TextStyle(
+          fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,7 +281,10 @@ Future<void> _showUpdateDialog(
               Navigator.pop(context);
               context.read<StartupCubit>().continueWithoutUpdate();
             },
-            child:  const Text('Later',style:TextStyle(fontSize: 16, color: Colors.grey),),
+            child: const Text(
+              'Later',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
           ),
         ElevatedButton(
           onPressed: () {
@@ -269,7 +307,8 @@ Future<void> _showServerUnavailableDialog(
     barrierDismissible: false,
     builder: (context) => AlertDialog(
       title: const Text('Server Maintenance'),
-      titleTextStyle: TextStyle(fontSize: 16, color: Colors.black,fontWeight: FontWeight.bold),
+      titleTextStyle: TextStyle(
+          fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -289,7 +328,10 @@ Future<void> _showServerUnavailableDialog(
               Navigator.pop(context);
             }
           },
-          child: const Text('Exit',style: TextStyle(fontSize: 16, color: Colors.grey),),
+          child: const Text(
+            'Exit',
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+          ),
         ),
         ElevatedButton(
           onPressed: () {

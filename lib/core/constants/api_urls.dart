@@ -10,4 +10,7 @@ class ApiUrls {
   static const requestResetCode = '${baseUrl}x';
   static const verifyResetCode = '${baseUrl}xx';
   static const resetPassword = '${baseUrl}xxx';
+
+  static const currentUser = '${baseUrl}cu';
+  static const completeInitialSetup = '${baseUrl}ci';
 }
