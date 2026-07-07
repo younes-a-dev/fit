@@ -8,6 +8,13 @@ import 'features/feature_auth/data/repository/auth_repository_impl.dart';
 import 'features/feature_auth/domain/repository/auth_repository.dart';
 import 'features/feature_auth/domain/usecase/auth_usecases.dart';
 import 'features/feature_auth/presentation/bloc/cubit/auth_cubit.dart';
+import 'features/feature_exercise/data/data_source/exercise_local_data_source.dart';
+import 'features/feature_exercise/data/data_source/exercise_remote_data_source.dart';
+import 'features/feature_exercise/data/repository/exercise_repository_impl.dart';
+import 'features/feature_exercise/domain/repository/exercise_repository.dart';
+import 'features/feature_exercise/domain/usecases/get_exercise_detail_use_case.dart';
+import 'features/feature_exercise/domain/usecases/get_exercises_use_case.dart';
+import 'features/feature_exercise/presentation/cubit/exercise_cubit.dart';
 import 'features/feature_startup/data/data_source/startup_local_data_source.dart';
 import 'features/feature_startup/data/data_source/startup_remote_data_source.dart';
 import 'features/feature_startup/data/repository/startup_repository_impl.dart';
@@ -29,6 +36,7 @@ import 'features/language/presentation/cubit/language_cubit.dart';
 final sl = GetIt.instance;
 
 Future<void> setup() async {
+
   _registerCoreDependencies();
   await _registerAsyncDependencies();
   _registerFeatures();
@@ -58,6 +66,7 @@ Future<void> _registerAsyncDependencies() async {
    _initLanguageFeature();
    _initAuthFeature();
    _initUserFeature();
+   _initExerciseFeature();
 }
 
 
@@ -132,4 +141,13 @@ void _initUserFeature(){
   sl.registerLazySingleton<CompleteInitialSetupUseCase>(()=> CompleteInitialSetupUseCase(sl()));
 
   sl.registerFactory<UserCubit>(()=> UserCubit(sl(),sl()));
+}
+
+void _initExerciseFeature() {
+  sl.registerLazySingleton<ExerciseLocalDataSource>(()=>ExerciseLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<ExerciseRemoteDataSource>(() => ExerciseRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<ExerciseRepository>(() => ExerciseRepositoryImpl(sl(),sl()));
+  sl.registerLazySingleton<GetExercisesUseCase>(()=> GetExercisesUseCase(sl()));
+  sl.registerLazySingleton<GetExerciseDetailsUseCase>(()=> GetExerciseDetailsUseCase(sl()));
+  sl.registerFactory<ExerciseCubit>(()=> ExerciseCubit(sl(),sl()));
 }

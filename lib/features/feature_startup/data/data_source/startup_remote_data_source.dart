@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
+import '../../../../core/config/app_config.dart';
 import '../../../../core/constants/api_urls.dart';
 import '../../../../core/error/exception_mapper.dart';
 import '../../../../core/network/dio_client.dart';
 import '../model/app_state_model.dart';
-
-const bool USE_MOCK = true;
 
 abstract class StartupRemoteDataSource {
   Future<bool> checkInternetConnection();
@@ -33,7 +32,7 @@ class StartupRemoteDataSourceImpl implements StartupRemoteDataSource {
   @override
   Future<AppStateModel> getAppState() async {
     //todo: must be deleted
-    if (USE_MOCK) {
+    if (AppConfig.useMock) {
       return AppStateModel(
         hasUpdate: false,
         isUpdateForced: false,

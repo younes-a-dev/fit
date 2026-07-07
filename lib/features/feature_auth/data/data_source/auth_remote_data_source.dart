@@ -7,6 +7,7 @@ import '../../../../common/params/sign_in_params.dart';
 import '../../../../common/params/sign_up_params.dart';
 import '../../../../common/params/verify_email_params.dart';
 import '../../../../common/params/verify_reset_code_params.dart';
+import '../../../../core/config/app_config.dart';
 import '../../../../core/constants/api_urls.dart';
 import '../../../../core/error/api_response_validator.dart';
 import '../../../../core/error/exception.dart';
@@ -15,7 +16,6 @@ import '../../../../core/network/dio_client.dart';
 import '../model/auth_model.dart';
 import 'auth_local_data_source.dart';
 
-const bool USE_MOCK = true;
 abstract class AuthRemoteDataSource {
   Future<AuthModel> signUpWithEmail(SignUpWithEmailParams params);
   Future<AuthModel> verifyEmail(VerifyEmailParams param);
@@ -34,7 +34,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthModel> signUpWithEmail(SignUpWithEmailParams params) async {
-    if (USE_MOCK) {
+    if (AppConfig.useMock) {
       return AuthModel(
         accessToken: '',
         refreshToken: '',
@@ -58,7 +58,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthModel> verifyEmail(VerifyEmailParams params) async {
-    if (USE_MOCK) {
+    if (AppConfig.useMock) {
       return AuthModel(
         accessToken: 'mock_access',
         refreshToken: 'mock_refresh',
@@ -78,7 +78,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<AuthModel> signInWithEmail(SignInWithEmailParams params) async {
-    if (USE_MOCK) {
+    if (AppConfig.useMock) {
       await Future.delayed(
         const Duration(seconds: 1),
       );

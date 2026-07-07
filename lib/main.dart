@@ -11,6 +11,7 @@ import '../../screen/calculator_screens/calories_burned_screen.dart';
 import '../../screen/calculator_screens/daily_calorie_calculator_screen.dart';
 import '../../screen/care_plans_screen.dart';
 import '../../screen/change_password_screen.dart';
+import 'features/feature_exercise/presentation/cubit/exercise_cubit.dart';
 import 'features/feature_user/presentation/cubit/user_cubit.dart';
 import 'features/feature_user/presentation/screen/initial_profile_setup_screen.dart';
 import '../../screen/log_measurement_screen.dart';
@@ -105,6 +106,8 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => sl<UserCubit>(),
+        ),
+        BlocProvider(create: (context) => sl<ExerciseCubit>(),
         ),
         // ChangeNotifierProvider(
         //   create: (ctx) => Auth(),

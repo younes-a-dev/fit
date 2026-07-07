@@ -13,4 +13,7 @@ class ApiUrls {
 
   static const currentUser = '${baseUrl}cu';
   static const completeInitialSetup = '${baseUrl}ci';
+
+  static const exerciseDetail = '${baseUrl}adasd';
+  static const getExercises = '${baseUrl}adaasasd';
 }

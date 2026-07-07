@@ -1,0 +1,15 @@
+enum Equipment {
+  none,
+  barbell,
+  dumbbell,
+  kettlebell,
+  machine,
+  plate,
+  resistanceBand,
+  suspensionBand,
+  cable,
+  smithMachine,
+  medicineBall,
+  trx,
+  other,
+}
