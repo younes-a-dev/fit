@@ -1,0 +1,3 @@
+class CreateCustomPlanParams {
+  //TODO
+}

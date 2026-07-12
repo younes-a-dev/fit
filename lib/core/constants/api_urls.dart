@@ -16,4 +16,11 @@ class ApiUrls {
 
   static const exerciseDetail = '${baseUrl}adasd';
   static const getExercises = '${baseUrl}adaasasd';
+
+  static const getPlans = '${baseUrl}asd;a,d';
+  static const getPlanDetail = '${baseUrl}asd;a,asad';
+  static const bookmarkPlan = '${baseUrl}asd;daa,asad';
+  static const setCurrentPlan = '${baseUrl}sada';
+
+
 }

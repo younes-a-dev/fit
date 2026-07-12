@@ -2,6 +2,12 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/dio_client.dart';
+import 'features/exercise_plan_feature/data/data_source/exercise_plan_local_data_source.dart';
+import 'features/exercise_plan_feature/data/data_source/exercise_plan_remote_data_source.dart';
+import 'features/exercise_plan_feature/data/repository/exercise_plan_repository_impl.dart';
+import 'features/exercise_plan_feature/domain/repository/exercise_plan_repository.dart';
+import 'features/exercise_plan_feature/domain/usecases/exercise_plan_usecases.dart';
+import 'features/exercise_plan_feature/presentation/cubit/exercise_plan_cubit.dart';
 import 'features/feature_auth/data/data_source/auth_remote_data_source.dart';
 import 'features/feature_auth/data/data_source/auth_local_data_source.dart';
 import 'features/feature_auth/data/repository/auth_repository_impl.dart';
@@ -61,12 +67,13 @@ Future<void> _registerAsyncDependencies() async {
 }
 
 // Feature Registrations
- _registerFeatures()  {
+ void _registerFeatures()  {
    _initStartupFeature();
    _initLanguageFeature();
    _initAuthFeature();
    _initUserFeature();
    _initExerciseFeature();
+   _initExercisePlanFeature();
 }
 
 
@@ -150,4 +157,17 @@ void _initExerciseFeature() {
   sl.registerLazySingleton<GetExercisesUseCase>(()=> GetExercisesUseCase(sl()));
   sl.registerLazySingleton<GetExerciseDetailsUseCase>(()=> GetExerciseDetailsUseCase(sl()));
   sl.registerFactory<ExerciseCubit>(()=> ExerciseCubit(sl(),sl()));
+}
+
+void _initExercisePlanFeature(){
+  sl.registerLazySingleton<ExercisePlanLocalDataSource>(()=> ExercisePlanLocalDataSourceImpl(sl()));
+  sl.registerLazySingleton<ExercisePlanRemoteDataSource>(() => ExercisePlanRemoteDataSourceImpl(sl()));
+  sl.registerLazySingleton<ExercisePlanRepository>(()=> ExercisePlanRepositoryImpl(sl(),sl()));
+  sl.registerLazySingleton<GetPlansUseCase>(()=> GetPlansUseCase(sl()));
+  sl.registerLazySingleton<GetPlanDetailsUseCase>(()=> GetPlanDetailsUseCase(sl()));
+  sl.registerLazySingleton<BookmarkPlanUseCase>(()=> BookmarkPlanUseCase(sl()));
+  sl.registerLazySingleton<RemoveBookmarkUseCase>(()=> RemoveBookmarkUseCase(sl()));
+  sl.registerLazySingleton<SetCurrentPlanUseCase>(()=> SetCurrentPlanUseCase(sl()));
+  sl.registerFactory<ExercisePlanCubit>(() => ExercisePlanCubit(sl(), sl(),sl(),sl(),sl()));
+
 }
